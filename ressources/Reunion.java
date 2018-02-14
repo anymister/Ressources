@@ -2,12 +2,12 @@ package ressources;
 
 public class Reunion {
 	
-	private String dure;
+	private int dure;
 	private String nbPersonne;
-	private String heure;
+	private int heure;
 	private String jour;
 	
-public Reunion(String dure, String nbPersonne,String heure,String jour) {
+public Reunion(int dure, String nbPersonne,int heure,String jour) {
 	
 	this.dure=dure;
 	this.nbPersonne=nbPersonne;
@@ -21,22 +21,22 @@ public String getJour() {
 public void setJour(String jour) {
 	this.jour = jour;
 }
-public String getHeure() {
-	return heure;
-}
 
-public void setHeure(String heure) {
-	this.heure = heure;
-}
 
-public String getDure() {
+
+
+public int getDure() {
 	return dure;
 }
-
-public void setDure(String dure) {
+public void setDure(int dure) {
 	this.dure = dure;
 }
-
+public int getHeure() {
+	return heure;
+}
+public void setHeure(int heure) {
+	this.heure = heure;
+}
 public String getNbPersonne() {
 	return nbPersonne;
 }
