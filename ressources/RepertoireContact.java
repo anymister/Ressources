@@ -16,14 +16,13 @@ import java.util.ArrayList;
 public class RepertoireContact {
 
 	private ArrayList<String> listeDesEmployer;
-	private Contact employer  ;
-	private Contact cntct=null;
+	private Contact employer  ; 
 	
 			public RepertoireContact() {
 				employer =new Contact("","","","");
 				listeDesEmployer=new ArrayList<String> ();
 		
-		}
+		} 
 			
 			public void ajouterEmployer(String name,String email,String number,String responsabilite) {
 				
@@ -34,18 +33,24 @@ public class RepertoireContact {
 				sauvegarderEmployer(employer);
 				
 			}
-
+ 
 		public void sauvegarderEmployer (Contact contact) {
 			try {
 				BufferedWriter contacts=new BufferedWriter
 				(new FileWriter(".\\data\\contacts.txt",true));
-				contacts.write("\n"+
-				contact.getName()+"\n"+
-				contact.getEmail()+"\n"+
-				contact.getNumber()+"\n"+
+				BufferedWriter initEmploisDuTempsEmployer=new BufferedWriter
+						(new FileWriter(new File(".\\data\\"+contact.getName()+".txt"),true));
+				contacts.write("\r\n"+
+				contact.getName()+"\r\n"+
+				contact.getEmail()+"\r\n"+
+				contact.getNumber()+"\r\n"+
 				contact.getResponsabilite()+
 				"\n");
 				contacts.close();
+				for(int i=1;i<41;i++) {
+				initEmploisDuTempsEmployer.write(i+"\r\n");
+				}
+				initEmploisDuTempsEmployer.close();
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -59,90 +64,73 @@ public class RepertoireContact {
 		}
 		
 		public void lireListeDesEmployer() {
-			BufferedReader contacts = null;
-			try {
-				contacts = new BufferedReader (new FileReader(".\\data\\contacts.txt"));
-			} catch (FileNotFoundException e1) { 
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			try {
-				while(contacts.readLine()!=null)
-				{
-					listeDesEmployer.add(contacts.readLine());
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		
 			try {
+				
+				BufferedReader contacts = new BufferedReader (new FileReader(".\\data\\contacts.txt"));
+				while((contacts.readLine())!=null)
+				{ 
+					listeDesEmployer.add(contacts.readLine());
+				}
 				contacts.close();
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
 
-		public Contact rechercheEmployer(String name) throws IOException  {
+		public Contact rechercheEmployer(String name) {
 		
 		for(int i=0;i<nombreEmployer();i++) {
-		
-			if(name==listeDesEmployer.get(i)) {
-				
-				cntct.setName(listeDesEmployer.get(i));
-				cntct.setEmail(listeDesEmployer.get(i+1));
-				cntct.setNumber(listeDesEmployer.get(i+2));
-				cntct.setResponsabilite(listeDesEmployer.get(i+3));
+			if(listeDesEmployer.get(i)==name) {
+				employer.setName(listeDesEmployer.get(i));
+				employer.setEmail(listeDesEmployer.get(i+1));
+				employer.setNumber(listeDesEmployer.get(i+2));
+				employer.setResponsabilite(listeDesEmployer.get(i+3));
 			}
 		}
-		return cntct;
+		return employer;
 	}
 		
 		public void modify(String name, String newNumber) {
-				
 					
-						
-						try {
-							cntct=rechercheEmployer(name);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						remove(name);
-						cntct.setNumber(newNumber);
-						sauvegarderEmployer(cntct);
+					listeDesEmployer.clear();
+					lireListeDesEmployer();
+					
+					employer=rechercheEmployer(name);
+					remove(name);
+					employer.setNumber(newNumber);
+					sauvegarderEmployer(employer);
 				}
-					
-
+				
 		public void remove(String name) {
 			
-			listeDesEmployer.clear();
-			lireListeDesEmployer();
+			
 			File f=new File(".\\data\\contacts.txt");
 			f.delete();
 			 
 			for(int i=0;i<listeDesEmployer.size();i++) {
-				if(name==listeDesEmployer.get(i)) {
+				if(listeDesEmployer.get(i)==name) {
 					listeDesEmployer.set(i,"");
 				  	listeDesEmployer.set(i+1,"");
 					listeDesEmployer.set(i+2,"");
 					listeDesEmployer.set(i+3,"");
+				
 				}
 				else {
-				BufferedWriter contacts;
+				BufferedWriter contact;
 				try {
 					
-					contacts = new BufferedWriter(new FileWriter(new File(".\\data\\contacts.txt"),true));
+					contact = new BufferedWriter(new FileWriter(new File(".\\data\\contacts.txt"),true));
 				
-						contacts.write(listeDesEmployer.get(i)+"\n");
-						contacts.close();
+						contact.write(listeDesEmployer.get(i)+"\n");
+						contact.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-				}
+				
 			
 			
 
@@ -150,4 +138,13 @@ public class RepertoireContact {
 		
 		}
 
-}
+		}
+
+		public ArrayList<String> getListeDesEmployer() {
+			return listeDesEmployer;
+		}
+
+		public void setListeDesEmployer(ArrayList<String> listeDesEmployer) {
+			this.listeDesEmployer = listeDesEmployer;
+		}
+		}
