@@ -19,16 +19,32 @@ public class Evenement {
 		this.repContact=repContact;
 	}
 	
-	public Reunion conferance(String nbPersonne,String dure, String heure, String jour) {
+	public Reunion conferance(String nbPersonne,int dure,int heure, String jour) {
 		
 		reu.setDure(dure);
 		reu.setNbPersonne(nbPersonne);
 		reu.setJour(jour);
 		reu.setHeure(heure);
-		
 		return reu;
 	}
 	
+	
+	public RepertoireSalle getRepSalle() {
+		return repSalle;
+	}
+
+	public void setRepSalle(RepertoireSalle repSalle) {
+		this.repSalle = repSalle;
+	}
+
+	public RepertoireContact getRepContact() {
+		return repContact;
+	}
+
+	public void setRepContact(RepertoireContact repContact) {
+		this.repContact = repContact;
+	}
+
 	public Materiel getMateriel() {
 		return materiel;
 	}
