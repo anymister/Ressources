@@ -19,18 +19,29 @@ public class RepertoireContact {
 	private Contact employer  ; 
 	
 			public RepertoireContact() {
-				employer =new Contact("","","","");
+				employer =new Contact("","","",""); 
 				listeDesEmployer=new ArrayList<String> ();
 		
 		} 
 			
+			public void ajouterArrayList(Contact employer) {
+				listeDesEmployer.clear();
+				listeDesEmployer.add(employer.getName());
+				listeDesEmployer.add(employer.getEmail());
+				listeDesEmployer.add(employer.getNumber());
+				listeDesEmployer.add(employer.getResponsabilite());
+				
+			}
 			public void ajouterEmployer(String name,String email,String number,String responsabilite) {
+				
 				
 				employer.setEmail(email);
 				employer.setName(name);
 				employer.setNumber(number);
 				employer.setResponsabilite(responsabilite);
-				sauvegarderEmployer(employer);
+				sauvegarderEmployer(employer); 
+				ajouterEmploisDuTempEmployer(employer);
+				
 				
 			}
  
@@ -38,20 +49,33 @@ public class RepertoireContact {
 			try {
 				BufferedWriter contacts=new BufferedWriter
 				(new FileWriter(".\\data\\contacts.txt",true));
-				BufferedWriter initEmploisDuTempsEmployer=new BufferedWriter
-						(new FileWriter(new File(".\\data\\"+contact.getName()+".txt"),true));
+				
 				contacts.write("\r\n"+
-				contact.getName()+"\r\n"+
+				contact.getName()+"\r\n"+ 
 				contact.getEmail()+"\r\n"+
 				contact.getNumber()+"\r\n"+
 				contact.getResponsabilite()+
-				"\n");
+				"\r\n\n"); 
 				contacts.close();
-				for(int i=1;i<41;i++) {
-				initEmploisDuTempsEmployer.write(i+"\r\n");
+				
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		public void ajouterEmploisDuTempEmployer(Contact contact) {
+			 
+			BufferedWriter initEmploisDuTempsEmployer; 
+			try {
+				initEmploisDuTempsEmployer = new BufferedWriter
+						(new FileWriter(new File(".\\data\\"+contact.getName()+".txt"),true));
+			
+			for(int i=1;i<41;i++) {
+				initEmploisDuTempsEmployer.write(1+"\r\n");
 				}
 				initEmploisDuTempsEmployer.close();
-				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,9 +109,9 @@ public class RepertoireContact {
 		for(int i=0;i<nombreEmployer();i++) {
 			if(listeDesEmployer.get(i)==name) {
 				employer.setName(listeDesEmployer.get(i));
-				employer.setEmail(listeDesEmployer.get(i+1));
+				employer.setEmail(listeDesEmployer.get(i+1)); 
 				employer.setNumber(listeDesEmployer.get(i+2));
-				employer.setResponsabilite(listeDesEmployer.get(i+3));
+				employer.setResponsabilite(listeDesEmployer.get(i+3)); 
 			}
 		}
 		return employer;
@@ -97,26 +121,27 @@ public class RepertoireContact {
 					
 					listeDesEmployer.clear();
 					lireListeDesEmployer();
+					for(int i=0;i<listeDesEmployer.size();i++) {
+						if(listeDesEmployer.get(i)==name) {
+							listeDesEmployer.set(i+2,newNumber);
+						}
+						}
 					
-					employer=rechercheEmployer(name);
-					remove(name);
-					employer.setNumber(newNumber);
-					sauvegarderEmployer(employer);
-				}
-				
+					sauvegarderEmployer(rechercheEmployer(name));
+		}
 		public void remove(String name) {
 			
 			
-			File f=new File(".\\data\\contacts.txt");
+			File f=new File(".\\data\\"+name+".txt");
 			f.delete();
 			 
 			for(int i=0;i<listeDesEmployer.size();i++) {
 				if(listeDesEmployer.get(i)==name) {
 					listeDesEmployer.set(i,"");
 				  	listeDesEmployer.set(i+1,"");
-					listeDesEmployer.set(i+2,"");
-					listeDesEmployer.set(i+3,"");
-				
+					listeDesEmployer.set(i+2,"");  
+					listeDesEmployer.set(i+3,""); 
+				 
 				}
 				else {
 				BufferedWriter contact;

@@ -6,14 +6,24 @@ public class Reunion {
 	private String nbPersonne;
 	private int heure;
 	private String jour;
+	private String TypeEvenement;
 	
-public Reunion(int dure, String nbPersonne,int heure,String jour) {
-	
+public Reunion(int dure, String nbPersonne,int heure,String jour,String TypeEvenement) {
+	 this.TypeEvenement=TypeEvenement;
 	this.dure=dure;
 	this.nbPersonne=nbPersonne;
 	this.heure=heure;
 	this.jour=jour;
 }
+
+public String getTypeEvenement() {
+	return TypeEvenement;
+}
+
+public void setTypeEvenement(String typeEvenement) {
+	TypeEvenement = typeEvenement;
+}
+
 public String getJour() {
 	return jour;
 }
@@ -21,9 +31,6 @@ public String getJour() {
 public void setJour(String jour) {
 	this.jour = jour;
 }
-
-
-
 
 public int getDure() {
 	return dure;

@@ -1,22 +1,56 @@
 package ressources;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
+
+
 public class Test {
-
-	public static void main(String[] args) {
-
-			RepertoireContact r=new 	RepertoireContact();
+	 
+		public static void main(String[] args) {
+			Materiel m=new Materiel("4","4");//nbr de pc , nbr de datashow
+			Salle sal=new Salle("3","2");//capacité d une salle, nbr de salle qui ont cette capacité
+			Reunion reu=new Reunion(5,"23",10,"52","conferance");//dure,nbr de personne, heure , jour
+			//creer un evenement en utilisant les contacts si dessous 
+			RepertoireContact r=new RepertoireContact();
 			
-			r.ajouterEmployer("anis","live","1996","Achef");
-			r.ajouterEmployer("lydia","gmail","076100","Lchef");
-			r.ajouterEmployer("femme","hotmail","089","Fchef");
-			r.ajouterEmployer("liu","ber","0247","Lchef");
-			r.ajouterEmployer("qaqah","tchef","07485","Qchef");
+			r.ajouterEmployer("anis","anis@cergy.fr","01.20.10.20","Chef de Rayon");
+			r.ajouterEmployer("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
+			r.ajouterEmployer("celia","fatma@cergy.fr","03.04.50.15","Chefamectuh ");
+			r.ajouterEmployer("pole","pole@cergy.fr","02.30.62.20","sous directeur");
+			r.ajouterEmployer("julie","julie@cergy.fr","07.48.52.12","developpeur"); 
+			 
+			 
+			Contact c2=new Contact("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
 			
-		
-		r.modify("anis","20.08.96");
-		
-	}
-
+			RepertoireContact repBesoin=new RepertoireContact(); 
+ 
+			repBesoin.ajouterArrayList(c2);
+			
+			repBesoin.ajouterEmploisDuTempEmployer(c2);  
+		    
+			Evenement ev=new Evenement(reu,m,sal,repBesoin);  
+			EmploisDuTemp emt=new EmploisDuTemp(ev); 
+			  
+			 
+			emt.initialiserSemaine(); 
+			 
+		//	emt.ajouterEvenementEmploidDuTemp(ev); 
+			try {
+				emt.ajouterDansEmploisDuTemps(c2.getName(), ev.getReu().getHeure(),ev.getReu().getDure(),ev);
+				emt.ajouterDansEmploisDuTemps("semaine1", ev.getReu().getHeure(),ev.getReu().getDure(),ev);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();  
+			}
+			//emt.modifierEmploisDuTempsEmployer("lydia",reu.getHeure(),reu.getDure());
+			//elle modifie l emplois du temps de l employer au meme temps celui de l entreprise (ou y a 1 il le remplace par 0)
+			// ne marche pas si l'employer n existe pas
+			
+	 
+		 
+	}  
+ 
 }

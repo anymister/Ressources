@@ -4,18 +4,13 @@ public class Evenement {
 	
 	private Reunion reu;
 	private Materiel materiel;
-	private RepertoireSalle repSalle;
+	private Salle salle;
 	private RepertoireContact repContact;
 	
-
-	
-	
-	
-	
-	public Evenement (Reunion reu,Materiel materiel,RepertoireSalle repSalle,RepertoireContact repContact) {
+	public Evenement (Reunion reu,Materiel materiel,Salle salle,RepertoireContact repContact) {
 		this.reu=reu;
-		this.repSalle=repSalle;
-		this.materiel=materiel;
+		this.salle=salle;
+		this.materiel=materiel; 
 		this.repContact=repContact;
 	}
 	
@@ -25,16 +20,16 @@ public class Evenement {
 		reu.setNbPersonne(nbPersonne);
 		reu.setJour(jour);
 		reu.setHeure(heure);
-		return reu;
+		return reu; 
 	}
 	
 	
-	public RepertoireSalle getRepSalle() {
-		return repSalle;
+	public Salle getSalle() {
+		return salle;
 	}
 
-	public void setRepSalle(RepertoireSalle repSalle) {
-		this.repSalle = repSalle;
+	public void setSalle(Salle salle) {
+		this.salle = salle;
 	}
 
 	public RepertoireContact getRepContact() {
@@ -61,14 +56,5 @@ public class Evenement {
 	public void setReu(Reunion reu) {
 		this.reu = reu;
 	}
-
-	
-
-	
-	
-	
-	
-	
-	
 
 }
