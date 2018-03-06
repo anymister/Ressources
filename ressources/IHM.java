@@ -1,5 +1,8 @@
 package ressources;
 
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
 public class IHM {
 
 public static class newJFrame extends javax.swing.JFrame {
@@ -15,7 +18,7 @@ public static class newJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>(); 
         jLabel2 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -128,31 +131,40 @@ public static class newJFrame extends javax.swing.JFrame {
         textField1.setText("en heure...");
         textField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textField1ActionPerformed(evt);
+               
             }
         });
 
         textField2.setText("textField2");
 
-        jLabel5.setText("Salle :");
+        jLabel5.setText("Nombre de personne :");
 
         jButton1.setText("Effacer");
         jButton1.setActionCommand("Effacer");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
+            	  textField1.setText("");  
+            	  textField2.setText("");
+            	  textField3.setText("");
+            	  textField4.setText("");
+            	  textField5.setText("");
+            	  textField6.setText("");
+            	  }
         });
 
         jButton2.setText("Sauvegarder");
         jButton2.setToolTipText("");
-
-        textField3.setText("Quantité");
+      
+        
+           
+            jButton2.addActionListener(new SauvegardeAction());
+            
+        textField3.setText("Quantité"); 
         textField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textField3ActionPerformed(evt);
-            }
-        });
+            } 
+        }); 
 
         textField4.setText("Quantité");
 
@@ -284,7 +296,36 @@ public static class newJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
-
+    private class SauvegardeAction implements ActionListener{
+		public void actionPerformed(java.awt.event.ActionEvent evt) {
+			Materiel m=new Materiel("4","4");//nbr de pc , nbr de datashow
+			Salle sal=new Salle("3","2");//capacité d une salle, nbr de salle qui ont cette capacité
+			Reunion reu=new Reunion(2,"23",20,"52","conferance");//dure,nbr de personne, heure , jour
+			
+			Contact c2=new Contact("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
+			Contact c1=new Contact("julie","ania@cergy.fr","03.20.25.21","Presentateur"); 					
+			RepertoireContact repBesoin=new RepertoireContact();   
+  
+			repBesoin.ajouterArrayList(c2);
+			repBesoin.ajouterArrayList(c1); 
+			//repBesoin.ajouterEmploisDuTempEmployer(c2);  
+			//repBesoin.ajouterEmploisDuTempEmployer(c1); 
+			Evenement ev=new Evenement(reu,m,sal,repBesoin); 
+			EmploisDuTemp emt=new EmploisDuTemp(ev);    
+			try {
+				emt.ajouterDansEmploisDuTemps(c2.getName(), ev.getReu().getHeure(),ev.getReu().getDure(),ev);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				emt.ajouterDansEmploisDuTempsEmployer(ev);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+		}
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
     }                                          

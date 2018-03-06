@@ -23,9 +23,10 @@ private RepertoireContact repContact;
 private ArrayList<String> EmploisDusTemps;
 private BufferedWriter emploisDuTempsEmployer;
 private ArrayList<String> EmployerParticipantsEvenement; 
-
+private ArrayList <String> nomEmployer;
 
 public EmploisDuTemp(Evenement event) {
+	nomEmployer=new ArrayList<String>();
 	EmploisDusTemps=new ArrayList<String>(); 
 	this.event=event;
 	jours =new HashMap<String,String> ();
@@ -69,32 +70,144 @@ public void lireEmploisDuTempEmployer(String nom) {
 		}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace(); 
 		} 
 }
-
-public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement event) throws IOException {
-	File f=new File(".\\data\\"+name+".txt");
-	BufferedReader r=new BufferedReader(new FileReader(f)); 
-		String line="";
+public void nomDesEmployerNecessaire(Evenement event) {
+	nomEmployer.clear();
+	 for(int k=0;k<event.getRepContact().getListeDesEmployer().size();k++) {
+		 nomEmployer.add(event.getRepContact().getListeDesEmployer().get(k));
+		 System.out.println(event.getRepContact().getListeDesEmployer().get(k));
+		 k=k+3; 
+	 } 
+}
+public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException {
+	String line="";
+	
+	int dure= event.getReu().getDure();
+	int heure=event.getReu().getHeure();
+	nomDesEmployerNecessaire(event);
+	BufferedWriter writeEmploisDuTempsEmployer = null;
+	File EmploisDuTempsEmployer=null;
+	if(nomEmployer.size()!=0) {
+	for(int j=0;j<nomEmployer.size();j++) { 
+		System.out.println(nomEmployer.size());
+		EmploisDuTempsEmployer=new File(".\\data\\"+nomEmployer.get(j)+".txt"); 
+		//EmploisDuTempsEmployer.delete();  
 		EmploisDusTemps.clear();
-		while((line=r.readLine())!=null) {
-			EmploisDusTemps.add(line); 
+		BufferedReader lireEmploisDuTempEmployer=new BufferedReader(new FileReader(EmploisDuTempsEmployer)); 
+		while((line=lireEmploisDuTempEmployer.readLine())!=null) { 
+		EmploisDusTemps.add(line);  
 		}
-		  r.close(); 
-		
-		if (EmploisDusTemps.get(heure)!="0") {
+		lireEmploisDuTempEmployer.close();
+		if (EmploisDusTemps.get(heure)!="0") { 
 		if(dure==1) {
 		EmploisDusTemps.set(heure, "0");
+		
+		
 		} 
 		else if(dure==2) {
-			if (EmploisDusTemps.get(heure+1)!="0") {
+			if (EmploisDusTemps.get(heure+1)!="0") { 
+			EmploisDusTemps.set(heure, "0");
+			EmploisDusTemps.set(heure+1, "0");
+			 
+			
+			}
+		else { 
+				return 0;  
+			}
+			}
+		else if(dure==3) {
+			if ((EmploisDusTemps.get(heure+2)!="0")&&(EmploisDusTemps.get(heure+1)!="0")) {
+			EmploisDusTemps.set(heure, "0");
+			EmploisDusTemps.set(heure+1, "0");
+			EmploisDusTemps.set(heure+2, "0"); 
+			
+			
+			}
+		else { 
+				return 0;
+			}	
+		}
+		else if(dure==4) {
+			if ((EmploisDusTemps.get(heure+3)!="0")&&
+					(EmploisDusTemps.get(heure+2)!="0")&&
+					(EmploisDusTemps.get(heure+1)!="0")) {
+			EmploisDusTemps.set(heure, "0");
+			EmploisDusTemps.set(heure+1, "0");
+			EmploisDusTemps.set(heure+2, "0");
+			EmploisDusTemps.set(heure+3, "0");
+			
+			
+			}
+		else 
+				{
+					
+					return 0;
+					}
+			}
+		else if(dure==5) { 
+			if ((EmploisDusTemps.get(heure+4)!="0")&&
+					(EmploisDusTemps.get(heure+3)!="0")&&
+					(EmploisDusTemps.get(heure+2)!="0")&&
+					(EmploisDusTemps.get(heure+1)!="0")) 
+			{
+					
+						EmploisDusTemps.set(heure, "0"); 
+						EmploisDusTemps.set(heure+1, "0"); 
+						EmploisDusTemps.set(heure+2, "0");
+						EmploisDusTemps.set(heure+3, "0");
+						EmploisDusTemps.set(heure+4, "0"); 
+						
+						
+			}
+			
+		}
+		EmploisDuTempsEmployer.delete();
+	writeEmploisDuTempsEmployer=new BufferedWriter(new FileWriter(
+				(EmploisDuTempsEmployer),true));
+	for(int i=0;i<EmploisDusTemps.size();i++) { 
+		writeEmploisDuTempsEmployer.write(EmploisDusTemps.get(i)+"\r\n"); 
+		System.out.println(EmploisDusTemps.get(i)); 
+		//System.out.println(nomEmployer.get(i));
+
+	}
+	 
+	writeEmploisDuTempsEmployer.close();
+		}
+		}
+	return 1;}
+	else return 0;
+}
+public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement event) throws IOException {
+	
+	File EmploisDuTempsEntreprise=new File(".\\data\\semaine1.txt");
+	BufferedReader r=new BufferedReader(new FileReader(EmploisDuTempsEntreprise));  
+		String line="";
+		String tab[];
+		nomDesEmployerNecessaire(event);
+		EmploisDusTemps.clear();
+		while((line=r.readLine())!=null) { 
+			  
+			EmploisDusTemps.add(line);  
+		}
+		  r.close();
+		 
+		if (EmploisDusTemps.get(heure)!="0") { 
+		if(dure==1) {
+		EmploisDusTemps.set(heure, "0");
+		enregistrerEvenement(event);
+		
+		} 
+		else if(dure==2) {
+			if (EmploisDusTemps.get(heure+1)!="0") { 
 			EmploisDusTemps.set(heure, "0");
 			EmploisDusTemps.set(heure+1, "0");
 			enregistrerEvenement(event); 
-			}else {
-				
-				return 0;
+			
+			}
+		else { 
+				return 0;  
 			}
 			}
 		else if(dure==3) {
@@ -103,10 +216,12 @@ public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement ev
 			EmploisDusTemps.set(heure+1, "0");
 			EmploisDusTemps.set(heure+2, "0"); 
 			enregistrerEvenement(event);
-			}else {
-				
+			
+			}
+		else { 
 				return 0;
-			}}
+			}	
+		}
 		else if(dure==4) {
 			if ((EmploisDusTemps.get(heure+3)!="0")&&
 					(EmploisDusTemps.get(heure+2)!="0")&&
@@ -116,11 +231,14 @@ public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement ev
 			EmploisDusTemps.set(heure+2, "0");
 			EmploisDusTemps.set(heure+3, "0");
 			enregistrerEvenement(event);
+			
 			}
-				else 
+		else 
 				{
-					enregistrerEvenement(event);
-					return 0;}}
+					
+					return 0;
+					}
+			}
 		else if(dure==5) { 
 			if ((EmploisDusTemps.get(heure+4)!="0")&&
 					(EmploisDusTemps.get(heure+3)!="0")&&
@@ -128,31 +246,34 @@ public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement ev
 					(EmploisDusTemps.get(heure+1)!="0")) 
 			{
 					
-						EmploisDusTemps.set(heure, "0");
+						EmploisDusTemps.set(heure, "0"); 
 						EmploisDusTemps.set(heure+1, "0"); 
 						EmploisDusTemps.set(heure+2, "0");
 						EmploisDusTemps.set(heure+3, "0");
-						EmploisDusTemps.set(heure+4, "0");
+						EmploisDusTemps.set(heure+4, "0"); 
 						enregistrerEvenement(event);  
+						
 			}
-			else {
-				
-				return 0; 
-				}
-			}
-		f.delete();
-		BufferedWriter w=new BufferedWriter(new FileWriter(new File("data\\"+name+".txt"),true));
-		for(int i=0;i<EmploisDusTemps.size();i++) { 
-			System.out.println(EmploisDusTemps.get(i));  
-			w.write(EmploisDusTemps.get(i)+"\r\n"); 
+			
 		}
-		w.close();
+		
+			
+		
+		EmploisDuTempsEntreprise.delete();
+		BufferedWriter writeEmploisDuTempsEntreprise=new BufferedWriter(new FileWriter(new File("data\\semaine1.txt"),true));
+		
+		for(int i=0;i<EmploisDusTemps.size();i++) { 
+			writeEmploisDuTempsEntreprise.write(EmploisDusTemps.get(i)+"\r\n");  
+		System.out.println(EmploisDusTemps.get(i));  
+	}
+		writeEmploisDuTempsEntreprise.close(); 
+	
 		return 1;
 		}
-		else
-			return 0;	
-
+		else return 0;
+		
 }
+			
 
 public void initialiserSemaine() {
 	BufferedWriter semaine1;
@@ -160,13 +281,12 @@ public void initialiserSemaine() {
 	semaine.delete();
 	try {
 		semaine1 = new BufferedWriter(new FileWriter(semaine,true));
-	
 	event.getRepContact().lireListeDesEmployer();
 	for(int i=1;i<41;i++) {
 	semaine1.write(1+"\r\n"); 
 	} 
 	semaine1.close();
-	} catch (IOException e) {
+	} catch (IOException e) { 
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	} 
@@ -175,26 +295,34 @@ public void initialiserSemaine() {
 
 public void enregistrerEvenement(Evenement event) {
 	try {
+		String heure=""+event.getReu().getHeure();
 				//chaque 5 donne c est un evenement d une heure
 		BufferedWriter contact = new BufferedWriter(new FileWriter(new File(".\\data\\evenement1.txt"),true));// changer le nom d evenemnt
 		contact.write(
+				heure+"\r\n"+
 				event.getReu().getTypeEvenement()+"\r\n"+
 				event.getMateriel().getNombreDePc()+"\r\n"+
 				event.getMateriel().getNombreDeProjecteurs()+"\r\n"+
 				event.getSalle().getCapacite()+"\r\n"+
 				event.getReu().getDure()+"\r\n"+
-				event.getReu().getNbPersonne()+"\r\n"); 
+				event.getReu().getNbPersonne()+"\r\n"
+				);  
 		for(int i=0;i<event.getRepContact().getListeDesEmployer().size();i++) {
-			contact.write(event.getRepContact().getListeDesEmployer().get(i)+"\r\n"); 
-			i=i+5; // enregistrer njuste le nom de l employer
+			contact.write(event.getRepContact().getListeDesEmployer().get(i)+"\r\n");  
+			i=i+3; // enregistrer njuste le nom de l employer
 		}  
 		contact.close();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+}
+
+public void modeAutomatique() {
 	
-	
+}
+
+public void lectureDisponibiliteTempsEntreprise() {
 	
 }
 public void modifierEvenement() {

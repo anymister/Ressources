@@ -16,40 +16,45 @@ import java.util.ArrayList;
 public class RepertoireContact {
 
 	private ArrayList<String> listeDesEmployer;
+	private ArrayList<String> nomEmployer;
 	private Contact employer  ; 
-	
+	private Contact employe  ; 
 			public RepertoireContact() {
 				employer =new Contact("","","",""); 
+				employe =new Contact("","","",""); 
 				listeDesEmployer=new ArrayList<String> ();
-		
+				nomEmployer=new ArrayList<String> ();
 		} 
 			
 			public void ajouterArrayList(Contact employer) {
-				listeDesEmployer.clear();
+				//listeDesEmployer.clear();
 				listeDesEmployer.add(employer.getName());
 				listeDesEmployer.add(employer.getEmail());
 				listeDesEmployer.add(employer.getNumber());
 				listeDesEmployer.add(employer.getResponsabilite());
 				
 			}
+			
 			public void ajouterEmployer(String name,String email,String number,String responsabilite) {
 				
-				
-				employer.setEmail(email);
-				employer.setName(name);
-				employer.setNumber(number);
-				employer.setResponsabilite(responsabilite);
-				sauvegarderEmployer(employer); 
-				ajouterEmploisDuTempEmployer(employer);
-				
+	 			
+				employe.setEmail(email);
+				employe.setName(name);
+				employe.setNumber(number);
+				employe.setResponsabilite(responsabilite);
+				if(rechercheEmployer(name)!=employe) {
+				sauvegarderEmployer(employe); 
+				ajouterEmploisDuTempEmployer(employe);
+				}
 				
 			}
  
-		public void sauvegarderEmployer (Contact contact) {
+	 public void sauvegarderEmployer (Contact contact) {
 			try {
 				BufferedWriter contacts=new BufferedWriter
 				(new FileWriter(".\\data\\contacts.txt",true));
 				
+		
 				contacts.write("\r\n"+
 				contact.getName()+"\r\n"+ 
 				contact.getEmail()+"\r\n"+
@@ -57,7 +62,7 @@ public class RepertoireContact {
 				contact.getResponsabilite()+
 				"\r\n\n"); 
 				contacts.close();
-				
+				 
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -90,7 +95,7 @@ public class RepertoireContact {
 		public void lireListeDesEmployer() {
 		
 			try {
-				
+				 
 				BufferedReader contacts = new BufferedReader (new FileReader(".\\data\\contacts.txt"));
 				while((contacts.readLine())!=null)
 				{ 
@@ -105,7 +110,7 @@ public class RepertoireContact {
 	}
 
 		public Contact rechercheEmployer(String name) {
-		
+			lireListeDesEmployer();
 		for(int i=0;i<nombreEmployer();i++) {
 			if(listeDesEmployer.get(i)==name) {
 				employer.setName(listeDesEmployer.get(i));
@@ -114,6 +119,7 @@ public class RepertoireContact {
 				employer.setResponsabilite(listeDesEmployer.get(i+3)); 
 			}
 		}
+		System.out.println(employer.getEmail()+"...."+employer.getName());
 		return employer;
 	}
 		
