@@ -6,19 +6,18 @@ public class Evenement {
 	private Materiel materiel;
 	private Salle salle;
 	private RepertoireContact repContact;
-	
-	public Evenement (Reunion reu,Materiel materiel,Salle salle,RepertoireContact repContact) {
+	private int capacite; 
+	public Evenement (Reunion reu,Materiel materiel,int capacite,RepertoireContact repContact) {
 		this.reu=reu;
-		this.salle=salle;
-		this.materiel=materiel; 
+		this.capacite=capacite;
+		this.materiel=materiel;  
 		this.repContact=repContact;
 	}
 	
-	public Reunion conferance(String nbPersonne,int dure,int heure, String jour) {
+	public Reunion conferance(String nbPersonne,int dure,int heure) {
 		
 		reu.setDure(dure);
 		reu.setNbPersonne(nbPersonne);
-		reu.setJour(jour);
 		reu.setHeure(heure);
 		return reu; 
 	}

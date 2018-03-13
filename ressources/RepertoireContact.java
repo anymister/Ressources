@@ -17,6 +17,8 @@ public class RepertoireContact {
 
 	private ArrayList<String> listeDesEmployer;
 	private ArrayList<String> nomEmployer;
+	private ArrayList<String> contacts;
+	private ArrayList<String>  nomContacts;
 	private Contact employer  ; 
 	private Contact employe  ; 
 			public RepertoireContact() {
@@ -24,6 +26,8 @@ public class RepertoireContact {
 				employe =new Contact("","","",""); 
 				listeDesEmployer=new ArrayList<String> ();
 				nomEmployer=new ArrayList<String> ();
+			contacts=new ArrayList<String> ();
+			nomContacts=new ArrayList<String> ();
 		} 
 			
 			public void ajouterArrayList(Contact employer) {
@@ -95,7 +99,7 @@ public class RepertoireContact {
 		public void lireListeDesEmployer() {
 		
 			try {
-				 
+				listeDesEmployer.clear(); 
 				BufferedReader contacts = new BufferedReader (new FileReader(".\\data\\contacts.txt"));
 				while((contacts.readLine())!=null)
 				{ 
@@ -108,9 +112,32 @@ public class RepertoireContact {
 				e.printStackTrace();
 			}
 	}
+		public ArrayList nomEmploye() throws IOException {
+			nomContacts.clear();
+			contacts.clear();
+        	String line=""; 
+        	
+        	BufferedReader lireEmploisDuTempEmployer;
+        	
+        		lireEmploisDuTempEmployer = new BufferedReader(new FileReader(".\\data\\contacts.txt"));
 
+        	while((line=lireEmploisDuTempEmployer.readLine())!=null) { 
+        		contacts.add(line);  
+        	}
+        	lireEmploisDuTempEmployer.close();
+        	int j=0;
+        	 for(int k=0;k<contacts.size();k++) {
+        		
+        		 if (j==k) {
+        		 j=j+6;
+        		 nomContacts.add(contacts.get(k));
+        		 }
+        		 
+        		 }
+        	 return  nomContacts;
+        	}
 		public Contact rechercheEmployer(String name) {
-			lireListeDesEmployer();
+			lireListeDesEmployer(); 
 		for(int i=0;i<nombreEmployer();i++) {
 			if(listeDesEmployer.get(i)==name) {
 				employer.setName(listeDesEmployer.get(i));

@@ -18,19 +18,20 @@ public class EmploisDuTemp {
 private Evenement event;
 private int k=0;
 private HashMap<String,String> jours;
-private ArrayList<String> jrs;
+private ArrayList<String> nomContact;
 private RepertoireContact repContact;
 private ArrayList<String> EmploisDusTemps;
 private BufferedWriter emploisDuTempsEmployer;
 private ArrayList<String> EmployerParticipantsEvenement; 
 private ArrayList <String> nomEmployer;
-
+private String noms[];
 public EmploisDuTemp(Evenement event) {
+
 	nomEmployer=new ArrayList<String>();
 	EmploisDusTemps=new ArrayList<String>(); 
 	this.event=event;
 	jours =new HashMap<String,String> ();
-	jrs=new ArrayList<String>();
+	nomContact=new ArrayList<String>();
 	repContact =new RepertoireContact();// ajouter les employers qui vont participer à l'evenemnt
 	 EmployerParticipantsEvenement =new ArrayList<String> ();
 }
@@ -45,6 +46,15 @@ public EmploisDuTemp(Evenement event) {
  
 public void ajouterEmployerEvenemnt(Contact employer) {
 	 EmployerParticipantsEvenement.add(employer.getName());
+}
+
+
+public ArrayList<String> getNomContact() {
+	return nomContact;
+}
+
+public void setNomContact(ArrayList<String> nomContact) {
+	this.nomContact = nomContact;
 }
 
 public void lireEmploisDuTempEmployer(String nom) {  
@@ -64,6 +74,7 @@ public void lireEmploisDuTempEmployer(String nom) {
 					e.printStackTrace(); 
 				}
 			}
+			lireEmploisDutemps.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,26 +91,37 @@ public void nomDesEmployerNecessaire(Evenement event) {
 		 System.out.println(event.getRepContact().getListeDesEmployer().get(k));
 		 k=k+3; 
 	 } 
-}
+} 
+
+		
+	public void nomContacts() {
+		
+	}
+
 public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException {
 	String line="";
+	
+	nomContact=repContact.nomEmploye();
+	
+	
 	
 	int dure= event.getReu().getDure();
 	int heure=event.getReu().getHeure();
 	nomDesEmployerNecessaire(event);
 	BufferedWriter writeEmploisDuTempsEmployer = null;
 	File EmploisDuTempsEmployer=null;
-	if(nomEmployer.size()!=0) {
-	for(int j=0;j<nomEmployer.size();j++) { 
-		System.out.println(nomEmployer.size());
-		EmploisDuTempsEmployer=new File(".\\data\\"+nomEmployer.get(j)+".txt"); 
+	if(nomContact.size()!=0) {
+	for(int j=0;j<nomContact.size();j++) {   
+		System.out.println(nomContact.size());  
+		EmploisDuTempsEmployer=new File(".\\data\\"+nomContact.get(j)+".txt"); 
 		//EmploisDuTempsEmployer.delete();  
 		EmploisDusTemps.clear();
-		BufferedReader lireEmploisDuTempEmployer=new BufferedReader(new FileReader(EmploisDuTempsEmployer)); 
+	 System.out.println(nomContact.get(j)); 
+	 	BufferedReader lireEmploisDuTempEmployer=new BufferedReader(new FileReader(EmploisDuTempsEmployer)); 
 		while((line=lireEmploisDuTempEmployer.readLine())!=null) { 
 		EmploisDusTemps.add(line);  
 		}
-		lireEmploisDuTempEmployer.close();
+		lireEmploisDuTempEmployer.close(); 
 		if (EmploisDusTemps.get(heure)!="0") { 
 		if(dure==1) {
 		EmploisDusTemps.set(heure, "0");
@@ -142,7 +164,6 @@ public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException
 			}
 		else 
 				{
-					
 					return 0;
 					}
 			}
@@ -158,10 +179,7 @@ public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException
 						EmploisDusTemps.set(heure+2, "0");
 						EmploisDusTemps.set(heure+3, "0");
 						EmploisDusTemps.set(heure+4, "0"); 
-						
-						
-			}
-			
+			} 
 		}
 		EmploisDuTempsEmployer.delete();
 	writeEmploisDuTempsEmployer=new BufferedWriter(new FileWriter(
@@ -170,21 +188,21 @@ public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException
 		writeEmploisDuTempsEmployer.write(EmploisDusTemps.get(i)+"\r\n"); 
 		System.out.println(EmploisDusTemps.get(i)); 
 		//System.out.println(nomEmployer.get(i));
-
 	}
-	 
 	writeEmploisDuTempsEmployer.close();
 		}
-		}
-	return 1;}
+	}
+	return 1;
+	}
 	else return 0;
 }
-public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement event) throws IOException {
-	
+public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOException {
+	int heure=event.getReu().getHeure();
+	int dure=event.getReu().getDure();
 	File EmploisDuTempsEntreprise=new File(".\\data\\semaine1.txt");
 	BufferedReader r=new BufferedReader(new FileReader(EmploisDuTempsEntreprise));  
 		String line="";
-		String tab[];
+		
 		nomDesEmployerNecessaire(event);
 		EmploisDusTemps.clear();
 		while((line=r.readLine())!=null) { 
@@ -203,7 +221,7 @@ public int ajouterDansEmploisDuTemps(String name,int heure,int dure,Evenement ev
 			if (EmploisDusTemps.get(heure+1)!="0") { 
 			EmploisDusTemps.set(heure, "0");
 			EmploisDusTemps.set(heure+1, "0");
-			enregistrerEvenement(event); 
+			enregistrerEvenement(event);  
 			
 			}
 		else { 
@@ -298,18 +316,21 @@ public void enregistrerEvenement(Evenement event) {
 		String heure=""+event.getReu().getHeure();
 				//chaque 5 donne c est un evenement d une heure
 		BufferedWriter contact = new BufferedWriter(new FileWriter(new File(".\\data\\evenement1.txt"),true));// changer le nom d evenemnt
+		//String capacite=""+event.getSalle().getCapacite();
+		String dure=""+event.getReu().getDure();
 		contact.write(
 				heure+"\r\n"+
 				event.getReu().getTypeEvenement()+"\r\n"+
 				event.getMateriel().getNombreDePc()+"\r\n"+
 				event.getMateriel().getNombreDeProjecteurs()+"\r\n"+
-				event.getSalle().getCapacite()+"\r\n"+
-				event.getReu().getDure()+"\r\n"+
+				heure+"\r\n"+
+			//	capacite+"\r\n"+ 
+				dure+"\r\n"+
 				event.getReu().getNbPersonne()+"\r\n"
 				);  
 		for(int i=0;i<event.getRepContact().getListeDesEmployer().size();i++) {
-			contact.write(event.getRepContact().getListeDesEmployer().get(i)+"\r\n");  
-			i=i+3; // enregistrer njuste le nom de l employer
+			contact.write(event.getRepContact().getListeDesEmployer().get(i)+",");  
+			i=i+8; // enregistrer njuste le nom de l employer
 		}  
 		contact.close();
 	} catch (IOException e) {
@@ -319,6 +340,9 @@ public void enregistrerEvenement(Evenement event) {
 }
 
 public void modeAutomatique() {
+	
+}
+public void modeSemiAutomatique() {
 	
 }
 

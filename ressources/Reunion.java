@@ -5,15 +5,13 @@ public class Reunion {
 	private int dure;
 	private String nbPersonne;
 	private int heure;
-	private String jour;
 	private String TypeEvenement;
 	
-public Reunion(int dure, String nbPersonne,int heure,String jour,String TypeEvenement) {
-	 this.TypeEvenement=TypeEvenement;
+public Reunion(int dure, String nbPersonne,int heure,String TypeEvenement) { 
+	this.TypeEvenement=TypeEvenement;
 	this.dure=dure;
 	this.nbPersonne=nbPersonne;
 	this.heure=heure;
-	this.jour=jour;
 }
 
 public String getTypeEvenement() {
@@ -22,14 +20,6 @@ public String getTypeEvenement() {
 
 public void setTypeEvenement(String typeEvenement) {
 	TypeEvenement = typeEvenement;
-}
-
-public String getJour() {
-	return jour;
-}
-
-public void setJour(String jour) {
-	this.jour = jour;
 }
 
 public int getDure() {
