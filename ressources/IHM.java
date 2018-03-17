@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 public class IHM {
 
 public static class newJFrame extends javax.swing.JFrame {
@@ -30,7 +33,7 @@ public static class newJFrame extends javax.swing.JFrame {
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox3 = new javax.swing.JCheckBox();
         jCheckBox4 = new javax.swing.JCheckBox();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jButton3 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -55,14 +58,14 @@ public static class newJFrame extends javax.swing.JFrame {
         jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable1.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Lundi", null, null, null, null, null, null, null, null},
+            new Object [][] { 
+                {"Lundi", 1, null, null, null, null, null, null, null},
                 {"Mardi", null, null, null, null, null, null, null, null},
                 {"Mercredi", null, null, null, null, null, null, null, null},
                 {"Jeudi", null, null, null, null, null, null, null, null},
                 {"Vendredi", null, null, null, null, null, null, null, null}
             },
-            new String [] {
+            new String [] { 
                 "", "8h00-9h00", "9h00-10h00", "10h00-11h00", "11h00-12h00", "12h00-13h00", "13h00-14h00", "14h00-15h00", "15h00-16h00"
             }
         ) {
@@ -80,7 +83,7 @@ public static class newJFrame extends javax.swing.JFrame {
         jTable1.setRowHeight(50);
         jTable1.setRowMargin(10);
         jScrollPane1.setViewportView(jTable1);
-        jTable1.getAccessibleContext().setAccessibleParent(jToggleButton1);
+        jTable1.getAccessibleContext().setAccessibleParent(jButton3);
 
         jLabel1.setText("Evenement :");
 
@@ -88,6 +91,7 @@ public static class newJFrame extends javax.swing.JFrame {
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
+               
             }
         });
 
@@ -116,12 +120,15 @@ public static class newJFrame extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("Mon Entreprise");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Mon Entreprise");
+        jButton3.addActionListener(new ActionEntreprise() );
+    /*    jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                
+                 IHMEntreprise c=new IHMEntreprise();
+                
             }
-        });
+        });*/
 
         jLabel3.setText("Employés :");
 
@@ -184,6 +191,15 @@ public static class newJFrame extends javax.swing.JFrame {
         jButton1.setActionCommand("Effacer");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	int option = JOptionPane.showConfirmDialog(null, 
+    					
+    			        "Voulez-vous vraiment effacer?", 
+    			        "Confirmation", 
+    			        JOptionPane.YES_NO_OPTION, 
+    			        JOptionPane.QUESTION_MESSAGE);
+
+    			      if(option == JOptionPane.OK_OPTION){
+    			    	  
                 jButton1ActionPerformed(evt);
                 textField1.setText("");  
           	  textField2.setText("");
@@ -191,7 +207,8 @@ public static class newJFrame extends javax.swing.JFrame {
           	  textField4.setText("");
           	  textField5.setText("");
           	  textField6.setText("");
-            }
+          	  EmploisDuTemp emt=new EmploisDuTemp(null);
+          	}}
         });
 
         jButton2.setText("Sauvegarder");
@@ -265,7 +282,7 @@ public static class newJFrame extends javax.swing.JFrame {
                                             .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(126, 126, 126)))
                                 .addGap(236, 236, 236))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -287,7 +304,7 @@ public static class newJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -335,9 +352,23 @@ public static class newJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
+    private class ActionEntreprise implements ActionListener{
+  		public void actionPerformed(java.awt.event.ActionEvent evt) {
+  			new IHMEntreprise();
+  		}
+  		
+    }
     private class SauvegardeAction implements ActionListener{
 		public void actionPerformed(java.awt.event.ActionEvent evt) {
-			
+			int option = JOptionPane.showConfirmDialog(null, 
+					
+			        "Voulez-vous vraiment sauvegarder l'evenement?",  
+			        "Confirmation", 
+			        JOptionPane.YES_NO_OPTION, 
+			        JOptionPane.QUESTION_MESSAGE);
+
+			      if(option == JOptionPane.OK_OPTION){
+			    	  
            		 RepertoireContact repBesoinEmployer=new RepertoireContact(); 
           	        repBesoinEmployer.lireListeDesEmployer();
           for(int j=0;j<repBesoinEmployer.getListeDesEmployer().size();j++) {
@@ -352,24 +383,34 @@ public static class newJFrame extends javax.swing.JFrame {
 			String heure = textField2.getText();
 			String nbrPersonne = textField3.getText();
 			String nom=jList1.getSelectedValue();
-			String nbrTableau= textField4.getText();
+			String nbrTableau= textField4.getText(); 
 			String nbrMicros= textField5.getText();
 			String nbrProjecteurs= textField5.getText();
 			String nbrPc= textField6.getText(); 
 			String typeEvenement=(String) jComboBox1.getSelectedItem();
 			jMenu1.getSelectedIcon();
-		 
+			
 			System.out.println(dure+heure+nom+nbrTableau+nbrPc+jList1.getSelectedValue()+jComboBox1.getSelectedItem());
 			//RepertoireContact repBesoinEmployer=new RepertoireContact(); 
 			Contact employer=repBesoinEmployer.rechercheEmployer(nom);
 			repBesoinEmployer.ajouterArrayList(employer);
 		
 			Materiel materiel=new Materiel(nbrTableau,nbrPc);
+			if((dure==null)||(nbrPersonne==null)||(nom==null)||(nbrTableau==null)||(nbrPc==null)||(jComboBox1.getSelectedItem()==null)) {
+				JOptionPane.showMessageDialog(null,"Attention !Des informations manquent à votre évènement",
+		    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+		
 				int dur = Integer.parseInt(dure); 
 				int nbPersonne = Integer.parseInt(nbrPersonne); 
-				int heur = Integer.parseInt(nbrMicros);
+				
+				int heur=0;
 				
 				 Reunion reunion=new Reunion(dur,nbrPersonne,heur,typeEvenement);
+				 heur = reunion.traduireSelectionEnIHMenHeures(jTable1.getSelectedColumn(),
+						 jTable1.getSelectedRow());
+				 reunion.setHeure(heur);
 				 Evenement event=new Evenement (reunion,materiel,nbPersonne,repBesoinEmployer);
 				EmploisDuTemp emploisTemp=new EmploisDuTemp(event);
 				 
@@ -382,12 +423,29 @@ public static class newJFrame extends javax.swing.JFrame {
 			try {
 				emploisTemp.ajouterDansEmploisDuTempsEmployer(event);
 				emploisTemp.ajouterDansEmploisDuTempsEntreprise(event);
+				if(emploisTemp.ajouterDansEmploisDuTempsEmployer(event)==0) {
+					JOptionPane.showMessageDialog(null,"Attention ! Le creneau que vous avez choisis n'est pas disponible",
+			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+				}else
+				{
+					JOptionPane.showMessageDialog(null,"L'evenement à etais enregistrer avec succès",
+			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+				if(emploisTemp.ajouterDansEmploisDuTempsEntreprise(event)==0) {
+					JOptionPane.showMessageDialog(null,"Attention ! Le creneau que vous avez choisis n'est pas disponible",
+			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null,"L'evenement à etais enregistrer avec succès",
+			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				
 			} catch (IOException e) {  
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			
+			      }
 			
 		}
 		}
@@ -475,7 +533,7 @@ public static class newJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private JButton jButton3;
     private java.awt.TextField textField1;
     private java.awt.TextField textField2;
     private java.awt.TextField textField3;

@@ -24,8 +24,9 @@ private ArrayList<String> EmploisDusTemps;
 private BufferedWriter emploisDuTempsEmployer;
 private ArrayList<String> EmployerParticipantsEvenement; 
 private ArrayList <String> nomEmployer;
-private String noms[];
+
 public EmploisDuTemp(Evenement event) {
+	
 
 	nomEmployer=new ArrayList<String>();
 	EmploisDusTemps=new ArrayList<String>(); 
@@ -89,7 +90,7 @@ public void nomDesEmployerNecessaire(Evenement event) {
 	 for(int k=0;k<event.getRepContact().getListeDesEmployer().size();k++) {
 		 nomEmployer.add(event.getRepContact().getListeDesEmployer().get(k));
 		 System.out.println(event.getRepContact().getListeDesEmployer().get(k));
-		 k=k+3; 
+		 k=k+3;  
 	 } 
 } 
 
@@ -291,7 +292,7 @@ public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOExcepti
 		else return 0;
 		
 }
-			
+			 
 
 public void initialiserSemaine() {
 	BufferedWriter semaine1;
@@ -311,6 +312,7 @@ public void initialiserSemaine() {
 	
 }
 
+
 public void enregistrerEvenement(Evenement event) {
 	try {
 		String heure=""+event.getReu().getHeure();
@@ -329,11 +331,11 @@ public void enregistrerEvenement(Evenement event) {
 				event.getReu().getNbPersonne()+"\r\n"
 				);  
 		for(int i=0;i<event.getRepContact().getListeDesEmployer().size();i++) {
-			contact.write(event.getRepContact().getListeDesEmployer().get(i)+",");  
+			contact.write(event.getRepContact().nomEmploye()+",");  
 			i=i+8; // enregistrer njuste le nom de l employer
 		}  
 		contact.close();
-	} catch (IOException e) {
+	} catch (IOException e) { 
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}

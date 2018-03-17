@@ -35,7 +35,7 @@ public void lireListeDesSalles() {// Enregitrer le nombre de salle qui reste apr
 		lireSalle.close();	
 		salle.delete(); 
 	}
-	catch (IOException e) {
+	catch (IOException e) { 
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
@@ -63,13 +63,13 @@ public void ajouterSalle(Salle sall) {// les salles sont enregistrer dans le fic
 						k=1;
 					}
 				
-				}
+				} 
 			
-			if(k==0) {  
+			if(k==0) {   
 				listeDesSalles.add(capaciteSalle);
 				listeDesSalles.add(nbrSalles);
 			}
-	 
+			salle.delete();
 			for(int j=0;j<listeDesSalles.size();j++) {
 			salles.write(listeDesSalles.get(j)+"\r\n");
 			}

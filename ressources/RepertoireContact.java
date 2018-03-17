@@ -45,7 +45,7 @@ public class RepertoireContact {
 				employe.setEmail(email);
 				employe.setName(name);
 				employe.setNumber(number);
-				employe.setResponsabilite(responsabilite);
+				employe.setResponsabilite(responsabilite); 
 				if(rechercheEmployer(name)!=employe) {
 				sauvegarderEmployer(employe); 
 				ajouterEmploisDuTempEmployer(employe);

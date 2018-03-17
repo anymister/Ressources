@@ -49,6 +49,8 @@ public class Test {
 			repBesoin.ajouterEmploisDuTempEmployer(c1);        
 			Evenement ev=new Evenement(reu,m,20,repBesoin); 
 			EmploisDuTemp emt=new EmploisDuTemp(ev);
+			emt.traduireSelectionEnIHMenHeures(2, 3);
+			
 	
 		//	RepertoireSalle s=new RepertoireSalle();
 			//s.choisirSallePourEvenement(9);
@@ -61,6 +63,7 @@ public class Test {
 			try {
 				emt.ajouterDansEmploisDuTempsEntreprise(ev);
 				emt.ajouterDansEmploisDuTempsEmployer(ev);
+				System.out.println(emt.traduireSelectionEnIHMenHeures(2, 3));
 				//emt.ajouterDansEmploisDuTemps("semaine1", ev.getReu().getHeure(),ev.getReu().getDure(),ev);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
