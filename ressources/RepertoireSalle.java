@@ -18,7 +18,7 @@ public RepertoireSalle()
 	listeDesSalles =new ArrayList<String>();
 }
 public int stringEnEntier(String string) {
-	int entier = Integer.parseInt(string); 
+	int entier = Integer.parseInt(string);  
 	return entier;
 }
 public void lireListeDesSalles() {// Enregitrer le nombre de salle qui reste apres chaque evenement organiser
@@ -45,22 +45,23 @@ public void lireListeDesSalles() {// Enregitrer le nombre de salle qui reste apr
 public void ajouterSalle(Salle sall) {// les salles sont enregistrer dans le fichier de façon ou la premiere ligne represente 
 	//la capacite d'une salle et la ligne qui suie represente le nombre de salle contenent la mem capacité
 	try {
-		String nbrSalles=""+sall.getNbSalles();
+		String nbrSalles=""+sall.getNbSalles(); 
 		String capaciteSalle=""+sall.getCapacite();
 		//
 		File salle=new File(".\\data\\salles.txt");
 		BufferedWriter  salles=new BufferedWriter(new FileWriter(new File(".\\data\\salles.txt"),true));;
 		int k=0;
 		lireListeDesSalles();
-		new File(".\\data\\salles.txt").delete();
+		new File(".\\data\\salles.txt").delete(); 
 				for(int i=0;i<listeDesSalles.size();i+=2) { 
 					
 					
-					if(stringEnEntier(listeDesSalles.get(i))==sall.getCapacite()) {
+					if(Integer.parseInt(listeDesSalles.get(i))==sall.getCapacite()) {
 						int nbr=stringEnEntier(listeDesSalles.get(i+1))+sall.getNbSalles();
 						String newNbr=""+nbr;
-						listeDesSalles.set(i+1,newNbr);
+						listeDesSalles.set(i+1,newNbr); 
 						k=1;
+						
 					}
 				
 				} 
@@ -69,7 +70,7 @@ public void ajouterSalle(Salle sall) {// les salles sont enregistrer dans le fic
 				listeDesSalles.add(capaciteSalle);
 				listeDesSalles.add(nbrSalles);
 			}
-			salle.delete();
+			salle.deleteOnExit();
 			for(int j=0;j<listeDesSalles.size();j++) {
 			salles.write(listeDesSalles.get(j)+"\r\n");
 			}

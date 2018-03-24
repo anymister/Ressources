@@ -1,5 +1,7 @@
 package ressources;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,12 +9,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.CellEditor;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 public class IHM {
 
-public static class newJFrame extends javax.swing.JFrame {
+public static class newJFrame extends javax.swing.JFrame  {
 
     public newJFrame() {
     	contact =new ArrayList<String> ();
@@ -59,7 +65,7 @@ public static class newJFrame extends javax.swing.JFrame {
         jTable1.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] { 
-                {"Lundi", 1, null, null, null, null, null, null, null},
+                {"Lundi", null, null, null, null, null, null, null, null}, 
                 {"Mardi", null, null, null, null, null, null, null, null},
                 {"Mercredi", null, null, null, null, null, null, null, null},
                 {"Jeudi", null, null, null, null, null, null, null, null},
@@ -122,20 +128,21 @@ public static class newJFrame extends javax.swing.JFrame {
 
         jButton3.setText("Mon Entreprise");
         jButton3.addActionListener(new ActionEntreprise() );
-    /*    jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+       jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
                  IHMEntreprise c=new IHMEntreprise();
+                 c.main(null); 
                 
             }
-        });*/
+        });
 
         jLabel3.setText("Employés :");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
         	public int getSize() { 
             	contact.clear();
-            	contacts.clear();
+            	contacts.clear(); 
             	String line=""; 
             	
             	BufferedReader lireEmploisDuTempEmployer;
@@ -180,17 +187,19 @@ public static class newJFrame extends javax.swing.JFrame {
         textField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textField1ActionPerformed(evt);
+      //        Object o=jTable1.getValueAt(1, 1);
+        //    jTable1.setSelectionBackground(Color.RED);
             }
         });
 
-        textField2.setText("textField2");
+        textField2.setText("");
 
-        jLabel5.setText("Salle :");
+        jLabel5.setText("Nombre de participants :");
 
         jButton1.setText("Effacer");
         jButton1.setActionCommand("Effacer");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()  {
+            public void actionPerformed(java.awt.event.ActionEvent evt)  {
             	int option = JOptionPane.showConfirmDialog(null, 
     					
     			        "Voulez-vous vraiment effacer?", 
@@ -207,7 +216,14 @@ public static class newJFrame extends javax.swing.JFrame {
           	  textField4.setText("");
           	  textField5.setText("");
           	  textField6.setText("");
-          	  EmploisDuTemp emt=new EmploisDuTemp(null);
+          	jTable1.setToolTipText("Selectionez l'heure de debut de votre evenement "); 
+          	 DefaultTableCellRenderer custom = new DefaultTableCellRenderer(); 
+          	  custom.setBackground(Color.RED);
+          //	jTable1.getColumnModel().getColumnIndex(jTable1.getSelectedRow()).setCellRenderer(custom);
+         //jTable1.getColumnModel().getColumnIndex().setCellRenderer(custom);
+          	
+     
+          	
           	}}
         });
 
@@ -395,12 +411,12 @@ public static class newJFrame extends javax.swing.JFrame {
 			Contact employer=repBesoinEmployer.rechercheEmployer(nom);
 			repBesoinEmployer.ajouterArrayList(employer);
 		
-			Materiel materiel=new Materiel(nbrTableau,nbrPc);
+			Materiel materiel=new Materiel(nbrPc,nbrProjecteurs,nbrTableau,nbrMicros);
 			if((dure==null)||(nbrPersonne==null)||(nom==null)||(nbrTableau==null)||(nbrPc==null)||(jComboBox1.getSelectedItem()==null)) {
 				JOptionPane.showMessageDialog(null,"Attention !Des informations manquent à votre évènement",
 		    			  "Information", JOptionPane.INFORMATION_MESSAGE);
 				
-			}
+			} 
 		
 				int dur = Integer.parseInt(dure); 
 				int nbPersonne = Integer.parseInt(nbrPersonne); 
@@ -408,7 +424,7 @@ public static class newJFrame extends javax.swing.JFrame {
 				int heur=0;
 				
 				 Reunion reunion=new Reunion(dur,nbrPersonne,heur,typeEvenement);
-				 heur = reunion.traduireSelectionEnIHMenHeures(jTable1.getSelectedColumn(),
+				 heur = RelationIHMno.convertir_tableau_En_heure(jTable1.getSelectedColumn(),
 						 jTable1.getSelectedRow());
 				 reunion.setHeure(heur);
 				 Evenement event=new Evenement (reunion,materiel,nbPersonne,repBesoinEmployer);
@@ -416,27 +432,32 @@ public static class newJFrame extends javax.swing.JFrame {
 				 
 			//	int nbPersonne = Integer.parseInt(nbrPersonne); 
 				
-				
-		
-			
-		
 			try {
-				emploisTemp.ajouterDansEmploisDuTempsEmployer(event);
-				emploisTemp.ajouterDansEmploisDuTempsEntreprise(event);
-				if(emploisTemp.ajouterDansEmploisDuTempsEmployer(event)==0) {
-					JOptionPane.showMessageDialog(null,"Attention ! Le creneau que vous avez choisis n'est pas disponible",
-			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
-				}else
-				{
+				int tmp;
+				tmp=emploisTemp.ajouterDansEmploisDuTempsEmployer(event);
+				
+				
+				if(tmp==1) {
 					JOptionPane.showMessageDialog(null,"L'evenement à etais enregistrer avec succès",
 			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+				tmp=emploisTemp.ajouterDansEmploisDuTempsEntreprise(event);
 				}
-				if(emploisTemp.ajouterDansEmploisDuTempsEntreprise(event)==0) {
+				if(tmp==0)	{ 
 					JOptionPane.showMessageDialog(null,"Attention ! Le creneau que vous avez choisis n'est pas disponible",
-			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
-				}else {
+			    			  "Information", JOptionPane.INFORMATION_MESSAGE); 
+				
+				}
+				else {
+					
 					JOptionPane.showMessageDialog(null,"L'evenement à etais enregistrer avec succès",
 			    			  "Information", JOptionPane.INFORMATION_MESSAGE);
+					
+					             
+					
+			/*		int[] table;
+					table=RelationIHMno.getTab();
+					RelationIHMno.convertir_Heure_En_Tableau(heur);
+					jTable1.setModel(tab[table[0]][table[1]]);*/
 				}
 				
 				
@@ -542,6 +563,7 @@ public static class newJFrame extends javax.swing.JFrame {
     private java.awt.TextField textField6;
     private ArrayList<String> contact;
     private ArrayList<String> contacts;
+    private RelationIHMnoyau RelationIHMno=new RelationIHMnoyau();
     // End of variables declaration                   
 }
 

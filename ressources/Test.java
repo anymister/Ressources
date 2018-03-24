@@ -26,12 +26,13 @@ public class Test {
 //	rs.ajouterSalle(s3);
 		
 		
-			Materiel m=new Materiel("4","4");//nbr de pc , nbr de datashow
-			Salle sal=new Salle(3,2);//capacité d une salle, nbr de salle qui ont cette capacité
+			Materiel m=new Materiel("4","2","3","4");//nbr de pc , nbr de datashow
+			Salle sal=new Salle(30,20);//capacité d une salle, nbr de salle qui ont cette capacité
 			Reunion reu=new Reunion(2,"23",15,"conferance");//dure,nbr de personne, heure , jour
 			//creer un evenement en utilisant les contacts si dessous
 			RepertoireContact r=new RepertoireContact(); 
-			
+		RepertoireSalle repSal=new 	RepertoireSalle();
+		repSal.ajouterSalle(sal);
 		/*	r.ajouterEmployer("anis","anis@cergy.fr","01.20.10.20","Chef de Rayon");
 			r.ajouterEmployer("lydia","lydia@cergy.fr","03.20.25.21","Presentateur"); 
 			r.ajouterEmployer("celia","fatma@cergy.fr","03.04.50.15","Chefamectuh ");
@@ -39,7 +40,7 @@ public class Test {
 			r.ajouterEmployer("julie","julie@cergy.fr","07.48.52.12","developpeur");  
 		*/	 
 			
-			Contact c2=new Contact("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
+		/*	Contact c2=new Contact("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
 			Contact c1=new Contact("julie","ania@cergy.fr","03.20.25.21","Presentateur"); 					
 			RepertoireContact repBesoin=new RepertoireContact();   
   
@@ -49,7 +50,7 @@ public class Test {
 			repBesoin.ajouterEmploisDuTempEmployer(c1);        
 			Evenement ev=new Evenement(reu,m,20,repBesoin); 
 			EmploisDuTemp emt=new EmploisDuTemp(ev);
-			emt.traduireSelectionEnIHMenHeures(2, 3);
+		//	emt.traduireSelectionEnIHMenHeures(2, 3);
 			
 	
 		//	RepertoireSalle s=new RepertoireSalle();
@@ -61,9 +62,9 @@ public class Test {
 			  
 		//emt.ajouterEvenementEmploidDuTemp(ev);  
 			try {
-				emt.ajouterDansEmploisDuTempsEntreprise(ev);
+				//emt.ajouterDansEmploisDuTempsEntreprise(ev);
 				emt.ajouterDansEmploisDuTempsEmployer(ev);
-				System.out.println(emt.traduireSelectionEnIHMenHeures(2, 3));
+				//System.out.println(emt.traduireSelectionEnIHMenHeures(2, 3));
 				//emt.ajouterDansEmploisDuTemps("semaine1", ev.getReu().getHeure(),ev.getReu().getDure(),ev);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

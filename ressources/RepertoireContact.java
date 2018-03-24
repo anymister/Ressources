@@ -39,18 +39,22 @@ public class RepertoireContact {
 				
 			}
 			
-			public void ajouterEmployer(String name,String email,String number,String responsabilite) {
+			public int ajouterEmployer(String name,String email,String number,String responsabilite) {
 				
 	 			
 				employe.setEmail(email);
 				employe.setName(name);
 				employe.setNumber(number);
-				employe.setResponsabilite(responsabilite); 
-				if(rechercheEmployer(name)!=employe) {
+				employe.setResponsabilite(responsabilite);
+				Contact tmp=null;
+				tmp=rechercheEmployer(name);
+				if(tmp!=employe) {
+					System.out.println(tmp.getName()+".."+tmp.getNumber());
 				sauvegarderEmployer(employe); 
-				ajouterEmploisDuTempEmployer(employe);
+				ajouterEmploisDuTempEmployer(employe); 
+				return 0;
 				}
-				
+				else return 1;
 			}
  
 	 public void sauvegarderEmployer (Contact contact) {

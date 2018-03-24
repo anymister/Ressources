@@ -24,10 +24,9 @@ private ArrayList<String> EmploisDusTemps;
 private BufferedWriter emploisDuTempsEmployer;
 private ArrayList<String> EmployerParticipantsEvenement; 
 private ArrayList <String> nomEmployer;
+private RepertoireEvenement repEvent;
 
 public EmploisDuTemp(Evenement event) {
-	
-
 	nomEmployer=new ArrayList<String>();
 	EmploisDusTemps=new ArrayList<String>(); 
 	this.event=event;
@@ -35,6 +34,7 @@ public EmploisDuTemp(Evenement event) {
 	nomContact=new ArrayList<String>();
 	repContact =new RepertoireContact();// ajouter les employers qui vont participer à l'evenemnt
 	 EmployerParticipantsEvenement =new ArrayList<String> ();
+	 repEvent=new RepertoireEvenement();
 }
 
 /**
@@ -112,12 +112,12 @@ public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException
 	BufferedWriter writeEmploisDuTempsEmployer = null;
 	File EmploisDuTempsEmployer=null;
 	if(nomContact.size()!=0) {
-	for(int j=0;j<nomContact.size();j++) {   
+	for(int j=0;j<nomContact.size();j++) {    
 		System.out.println(nomContact.size());  
 		EmploisDuTempsEmployer=new File(".\\data\\"+nomContact.get(j)+".txt"); 
 		//EmploisDuTempsEmployer.delete();  
-		EmploisDusTemps.clear();
-	 System.out.println(nomContact.get(j)); 
+		EmploisDusTemps.clear(); 
+	    System.out.println(nomContact.get(j)); 
 	 	BufferedReader lireEmploisDuTempEmployer=new BufferedReader(new FileReader(EmploisDuTempsEmployer)); 
 		while((line=lireEmploisDuTempEmployer.readLine())!=null) { 
 		EmploisDusTemps.add(line);  
@@ -180,7 +180,7 @@ public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException
 						EmploisDusTemps.set(heure+2, "0");
 						EmploisDusTemps.set(heure+3, "0");
 						EmploisDusTemps.set(heure+4, "0"); 
-			} 
+			}else return 0; 
 		}
 		EmploisDuTempsEmployer.delete();
 	writeEmploisDuTempsEmployer=new BufferedWriter(new FileWriter(
@@ -191,7 +191,7 @@ public int ajouterDansEmploisDuTempsEmployer(Evenement event) throws IOException
 		//System.out.println(nomEmployer.get(i));
 	}
 	writeEmploisDuTempsEmployer.close();
-		}
+		}else return 0;
 	}
 	return 1;
 	}
@@ -215,14 +215,14 @@ public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOExcepti
 		if (EmploisDusTemps.get(heure)!="0") { 
 		if(dure==1) {
 		EmploisDusTemps.set(heure, "0");
-		enregistrerEvenement(event);
+		repEvent.enregistrerEvenement(event);
 		
 		} 
 		else if(dure==2) {
 			if (EmploisDusTemps.get(heure+1)!="0") { 
 			EmploisDusTemps.set(heure, "0");
 			EmploisDusTemps.set(heure+1, "0");
-			enregistrerEvenement(event);  
+			repEvent.enregistrerEvenement(event);
 			
 			}
 		else { 
@@ -234,7 +234,7 @@ public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOExcepti
 			EmploisDusTemps.set(heure, "0");
 			EmploisDusTemps.set(heure+1, "0");
 			EmploisDusTemps.set(heure+2, "0"); 
-			enregistrerEvenement(event);
+			repEvent.enregistrerEvenement(event);
 			
 			}
 		else { 
@@ -249,7 +249,7 @@ public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOExcepti
 			EmploisDusTemps.set(heure+1, "0");
 			EmploisDusTemps.set(heure+2, "0");
 			EmploisDusTemps.set(heure+3, "0");
-			enregistrerEvenement(event);
+			repEvent.enregistrerEvenement(event);
 			
 			}
 		else 
@@ -270,7 +270,7 @@ public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOExcepti
 						EmploisDusTemps.set(heure+2, "0");
 						EmploisDusTemps.set(heure+3, "0");
 						EmploisDusTemps.set(heure+4, "0"); 
-						enregistrerEvenement(event);  
+						repEvent.enregistrerEvenement(event);
 						
 			}
 			
@@ -295,7 +295,7 @@ public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOExcepti
 			 
 
 public void initialiserSemaine() {
-	BufferedWriter semaine1;
+	BufferedWriter semaine1; 
 	File semaine =new File(".\\data\\semaine1.txt");  
 	semaine.delete();
 	try {
@@ -313,33 +313,8 @@ public void initialiserSemaine() {
 }
 
 
-public void enregistrerEvenement(Evenement event) {
-	try {
-		String heure=""+event.getReu().getHeure();
-				//chaque 5 donne c est un evenement d une heure
-		BufferedWriter contact = new BufferedWriter(new FileWriter(new File(".\\data\\evenement1.txt"),true));// changer le nom d evenemnt
-		//String capacite=""+event.getSalle().getCapacite();
-		String dure=""+event.getReu().getDure();
-		contact.write(
-				heure+"\r\n"+
-				event.getReu().getTypeEvenement()+"\r\n"+
-				event.getMateriel().getNombreDePc()+"\r\n"+
-				event.getMateriel().getNombreDeProjecteurs()+"\r\n"+
-				heure+"\r\n"+
-			//	capacite+"\r\n"+ 
-				dure+"\r\n"+
-				event.getReu().getNbPersonne()+"\r\n"
-				);  
-		for(int i=0;i<event.getRepContact().getListeDesEmployer().size();i++) {
-			contact.write(event.getRepContact().nomEmploye()+",");  
-			i=i+8; // enregistrer njuste le nom de l employer
-		}  
-		contact.close();
-	} catch (IOException e) { 
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-}
+
+
 
 public void modeAutomatique() {
 	
