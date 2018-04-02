@@ -1,7 +1,9 @@
 package ressources;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -28,27 +30,27 @@ public class Test {
 		
 			Materiel m=new Materiel("4","2","3","4");//nbr de pc , nbr de datashow
 			Salle sal=new Salle(30,20);//capacité d une salle, nbr de salle qui ont cette capacité
-			Reunion reu=new Reunion(2,"23",15,"conferance");//dure,nbr de personne, heure , jour
+			Reunion reu=new Reunion(2,"23",5,"conferance");//dure,nbr de personne, heure , jour
 			//creer un evenement en utilisant les contacts si dessous
 			RepertoireContact r=new RepertoireContact(); 
 		RepertoireSalle repSal=new 	RepertoireSalle();
-		repSal.ajouterSalle(sal);
-		/*	r.ajouterEmployer("anis","anis@cergy.fr","01.20.10.20","Chef de Rayon");
+		//repSal.ajouterSalle(sal);
+			r.ajouterEmployer("anis","anis@cergy.fr","01.20.10.20","Chef de Rayon");
 			r.ajouterEmployer("lydia","lydia@cergy.fr","03.20.25.21","Presentateur"); 
 			r.ajouterEmployer("celia","fatma@cergy.fr","03.04.50.15","Chefamectuh ");
 			r.ajouterEmployer("pole","pole@cergy.fr","02.30.62.20","sous directeur");
 			r.ajouterEmployer("julie","julie@cergy.fr","07.48.52.12","developpeur");  
-		*/	 
+		 
 			
-		/*	Contact c2=new Contact("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
+			Contact c2=new Contact("lydia","lydia@cergy.fr","03.20.25.21","Presentateur");
 			Contact c1=new Contact("julie","ania@cergy.fr","03.20.25.21","Presentateur"); 					
 			RepertoireContact repBesoin=new RepertoireContact();   
   
 			repBesoin.ajouterArrayList(c2);
 			repBesoin.ajouterArrayList(c1); 
-			repBesoin.ajouterEmploisDuTempEmployer(c2);  
-			repBesoin.ajouterEmploisDuTempEmployer(c1);        
-			Evenement ev=new Evenement(reu,m,20,repBesoin); 
+			//repBesoin.ajouterEmploisDuTempEmployer(c2);  
+			//repBesoin.ajouterEmploisDuTempEmployer(c1);        
+			Evenement ev=new Evenement(reu,m,30,repBesoin); 
 			EmploisDuTemp emt=new EmploisDuTemp(ev);
 		//	emt.traduireSelectionEnIHMenHeures(2, 3);
 			
@@ -62,7 +64,7 @@ public class Test {
 			  
 		//emt.ajouterEvenementEmploidDuTemp(ev);  
 			try {
-				//emt.ajouterDansEmploisDuTempsEntreprise(ev);
+				emt.ajouterDansEmploisDuTempsEntreprise(ev);
 				emt.ajouterDansEmploisDuTempsEmployer(ev);
 				//System.out.println(emt.traduireSelectionEnIHMenHeures(2, 3));
 				//emt.ajouterDansEmploisDuTemps("semaine1", ev.getReu().getHeure(),ev.getReu().getDure(),ev);

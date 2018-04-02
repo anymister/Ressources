@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-public class IHMEmployer extends javax.swing.JFrame {
+public class IHMStatistiques extends javax.swing.JFrame {
 
-	public IHMEmployer() {
+	public IHMStatistiques() {
 		initComponents();
 	}
 
@@ -41,24 +41,26 @@ public class IHMEmployer extends javax.swing.JFrame {
 		jMenuItem3 = new javax.swing.JMenuItem();
 		jMenu2 = new javax.swing.JMenu();
 		jMenu3 = new javax.swing.JMenu();
-
+		stat = new StatistiquesRessources();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		try {
-
+			stat.occupationDeChaqueEmployer();
 			nomEmployer = relationNoyau.nomEmployees();
 			for (int i = 0; i < nomEmployer.size(); i++) {
-				model.add(i, nomEmployer.get(i));
+				model.add(i, nomEmployer.get(i) + ".............." + stat.getPourcentageOccupation().get(i) + "%");
+
 			}
+			jTextField1.setText(stat.salleRestante() + "%");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		jLabel1.setText("Nom :");
+		jLabel1.setText("Taux des salles occupées :");
 
-		jLabel2.setText("E-mail :");
+		jLabel2.setText("Taux des Materiaux utilisées :");
 
-		jLabel3.setText("Numéro :");
+		jLabel3.setText("Taux du Temps occupé:");
 
 		jLabel5.setText("Responsabilité :");
 
@@ -102,45 +104,8 @@ public class IHMEmployer extends javax.swing.JFrame {
 		});
 
 		jButtonModifier.setText("Modifier");
-		jButtonModifier.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				repertoire.modify(jTextField1.getText(), jTextField3.getText());
-				model.clear();
-				try {
-
-					nomEmployer = relationNoyau.nomEmployees();
-					for (int i = 0; i < nomEmployer.size(); i++) {
-						model.add(i, nomEmployer.get(i));
-					}
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
 
 		JButtonSupprimer.setText("Supprimer");
-
-		JButtonSupprimer.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				repertoire.remove(jTextField1.getText());
-				;
-				model.clear();
-				try {
-
-					nomEmployer = relationNoyau.nomEmployees();
-					for (int i = 0; i < nomEmployer.size(); i++) {
-						model.add(i, nomEmployer.get(i));
-					}
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
 		jButtonEnregistrer.setText("Quitter");
 		jButtonEnregistrer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,7 +122,7 @@ public class IHMEmployer extends javax.swing.JFrame {
 			}
 		});
 
-		jLabel6.setText("Liste des employés");
+		jLabel6.setText("Taux d'occupation de l'employer ");
 
 		jScrollPane1.setViewportView(JList);
 
@@ -191,7 +156,7 @@ public class IHMEmployer extends javax.swing.JFrame {
 								.addComponent(
 										jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel5).addComponent(jButtonAjouter))
+								.addComponent(jLabel5))
 						.addGap(38, 38, 38)
 						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
 								.createSequentialGroup()
@@ -204,11 +169,10 @@ public class IHMEmployer extends javax.swing.JFrame {
 										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addGap(34, 34, 34)).addGroup(
-										layout.createSequentialGroup().addGap(21, 21, 21).addComponent(jButtonModifier)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67,
-														Short.MAX_VALUE)
-												.addComponent(JButtonSupprimer)))
+								.addGap(34, 34, 34)).addGroup(layout.createSequentialGroup().addGap(21, 21, 21)
+
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67,
+												Short.MAX_VALUE)))
 						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 								.addGroup(layout.createSequentialGroup().addGap(60, 60, 60)
 										.addComponent(jButtonEnregistrer))
@@ -254,9 +218,9 @@ public class IHMEmployer extends javax.swing.JFrame {
 												javax.swing.GroupLayout.PREFERRED_SIZE)))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
 						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(jButtonEnregistrer).addComponent(JButtonSupprimer)
-								.addComponent(jButtonModifier).addComponent(jButtonAjouter))
-						.addGap(49, 49, 49)));
+								.addComponent(jButtonEnregistrer)
+
+						).addGap(49, 49, 49)));
 
 		pack();
 		setLocationRelativeTo(null);
@@ -304,7 +268,7 @@ public class IHMEmployer extends javax.swing.JFrame {
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new IHMEmployer().setVisible(true);
+				new IHMStatistiques().setVisible(true);
 			}
 		});
 	}
@@ -337,6 +301,7 @@ public class IHMEmployer extends javax.swing.JFrame {
 	private RelationIHMnoyau relationNoyau;
 	private ArrayList<String> nomEmployer;
 	private DefaultListModel model;
+	private StatistiquesRessources stat;
 	// End of variables declaration
 
 }

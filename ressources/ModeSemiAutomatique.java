@@ -9,17 +9,14 @@ import java.util.ArrayList;
 
 public class ModeSemiAutomatique {
 	private ArrayList<String> crenaux;
-	
+
 	public ModeSemiAutomatique() {
-		crenaux=new ArrayList<String>();
-		
+		crenaux = new ArrayList<String>();
+
 	}
-	
-	public void choisirCreneau()  {
-		
-	
-			 
-		
+
+	public void choisirCreneau() {
+
 	}
 
 }

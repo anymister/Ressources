@@ -1,28 +1,28 @@
 package ressources;
 
 public class Evenement {
-	
+
 	private Reunion reu;
 	private Materiel materiel;
 	private Salle salle;
 	private RepertoireContact repContact;
-	private int capacite; 
-	public Evenement (Reunion reu,Materiel materiel,int capacite,RepertoireContact repContact) {
-		this.reu=reu;
-		this.capacite=capacite;
-		this.materiel=materiel;  
-		this.repContact=repContact;
+	private int capacite;
+
+	public Evenement(Reunion reu, Materiel materiel, int capacite, RepertoireContact repContact) {
+		this.reu = reu;
+		this.capacite = capacite;
+		this.materiel = materiel;
+		this.repContact = repContact;
 	}
-	
-	public Reunion conferance(String nbPersonne,int dure,int heure) {
-		
+
+	public Reunion conferance(String nbPersonne, int dure, int heure) {
+
 		reu.setDure(dure);
 		reu.setNbPersonne(nbPersonne);
 		reu.setHeure(heure);
-		return reu; 
+		return reu;
 	}
-	
-	
+
 	public Salle getSalle() {
 		return salle;
 	}
@@ -46,7 +46,6 @@ public class Evenement {
 	public void setMateriel(Materiel materiel) {
 		this.materiel = materiel;
 	}
-	
 
 	public Reunion getReu() {
 		return reu;

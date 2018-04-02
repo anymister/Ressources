@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class Salle {
-	
+
 	private int nbSalles;
 	private int capacite;
-	
-	public Salle(int nbSalles,int capacite) {
-		this.nbSalles=nbSalles;
-		this.capacite=capacite;
+
+	public Salle(int nbSalles, int capacite) {
+		this.nbSalles = nbSalles;
+		this.capacite = capacite;
 	}
 
 	public int getNbSalles() {
@@ -28,8 +28,5 @@ public class Salle {
 	public void setCapacite(int capacite) {
 		this.capacite = capacite;
 	}
-
-	
-	
 
 }
