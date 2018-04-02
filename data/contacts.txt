@@ -1,25 +1,16 @@
-gmail
+anis
+anis@cergy.fr
+01.20.10.20
+Chef de Rayon
 
-07485
+
 lydia
-Fchef
-tchef
-live
-lydia
+lydia@cergy.fr
+03.20.25.21
+Presentateur
 
-Fchef
-0247
-tchef
 
-live
-Achef
-lydia
-076100
-
-hotmail
-Fchef
-liu
-0247
-
-tchef
-Qchef
+melissa
+t-melissa@hotmail.com
+07.58.62.45
+architecte

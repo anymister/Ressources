@@ -1,0 +1,100 @@
+11
+Réunion
+1
+0
+0
+0
+1
+1
+[anis, lydia],1
+Réunion
+1
+0
+0
+0
+1
+1
+[anis, lydia],1
+Réunion
+1
+0
+0
+0
+1
+1
+[anis, lydia],1
+Réunion
+2
+0
+0
+0
+3
+1
+[anis, lydia],2
+Réunion
+2
+0
+0
+0
+3
+1
+[anis, lydia],4
+Réunion
+1
+0
+0
+0
+2
+1
+[anis, lydia],1
+Réunion
+1
+0
+0
+0
+1
+2
+[anis, lydia],17
+Réunion
+2
+0
+0
+0
+2
+1
+[anis, lydia],12
+Conférence
+2
+0
+0
+0
+1
+1
+[anis, lydia],
+21
+Réunion
+2
+0
+0
+0
+3
+5
+[anis, lydia, melissa],[anis, lydia, melissa],
+29
+Réunion
+2
+0
+0
+0
+3
+5
+[anis, lydia, melissa],[anis, lydia, melissa],
+2
+Conférence
+
+0
+0
+0
+2
+1
+[anis, lydia, melissa],[anis, lydia, melissa],
