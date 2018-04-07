@@ -8,9 +8,9 @@ public class Evenement {
 	private RepertoireContact repContact;
 	private int capacite;
 
-	public Evenement(Reunion reu, Materiel materiel, int capacite, RepertoireContact repContact) {
+	public Evenement(Reunion reu, Materiel materiel, Salle salle, RepertoireContact repContact) {
 		this.reu = reu;
-		this.capacite = capacite;
+		this.salle = salle;
 		this.materiel = materiel;
 		this.repContact = repContact;
 	}
@@ -22,6 +22,7 @@ public class Evenement {
 		reu.setHeure(heure);
 		return reu;
 	}
+	
 
 	public Salle getSalle() {
 		return salle;

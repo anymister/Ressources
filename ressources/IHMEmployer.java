@@ -61,6 +61,10 @@ public class IHMEmployer extends javax.swing.JFrame {
 		jLabel3.setText("Numéro :");
 
 		jLabel5.setText("Responsabilité :");
+		jTextField1.setText(null);
+		jTextField2.setText(null);
+		jTextField3.setText(null);
+		jTextField4.setText(null);
 
 		jTextField1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +76,10 @@ public class IHMEmployer extends javax.swing.JFrame {
 		jButtonAjouter.addActionListener(new java.awt.event.ActionListener() {
 
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				String nom = null;
+				String email = null;
+				String numero = null;
+				String responsabilite = null;
 				int option = JOptionPane.showConfirmDialog(null,
 
 						"Voulez-vous vraiment ajouter un nouvel employer?", "Confirmation", JOptionPane.YES_NO_OPTION,
@@ -79,43 +87,69 @@ public class IHMEmployer extends javax.swing.JFrame {
 
 				if (option == JOptionPane.OK_OPTION) {
 
-					String nom = jTextField1.getText();
-					String email = jTextField2.getText();
-					String numero = jTextField3.getText();
-					String responsabilite = jTextField4.getText();
-					System.out.println(nom + email + numero + responsabilite);
-					int tmp = repertoire.ajouterEmployer(nom, email, numero, responsabilite);
-					if (tmp == 0) {
+					 nom = jTextField1.getText();
+					 email = jTextField2.getText();
+					 numero = jTextField3.getText();
+					 responsabilite = jTextField4.getText();
+					System.out.println("ajouter employer IHM"+nom + email + numero + responsabilite);
+					if ((nom == null) || (email == null) || (numero == null) || (responsabilite == null)) {
+						JOptionPane.showMessageDialog(null,
+								"Attention ! Des information manquent, l'employer ne peut pas etre ajouter.",
+								"Information", JOptionPane.INFORMATION_MESSAGE);
 
-						model.addElement(jTextField1.getText());
+					}else {
+						int tmp = repertoire.ajouterEmployer(nom, email, numero, responsabilite);
+						if (tmp == 0) {
 
-						JOptionPane.showMessageDialog(null, "l'employer a été ajouter avec succès.", "Information",
-								JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "Attention ! Le contact existe dejà.", "Information",
-								JOptionPane.INFORMATION_MESSAGE);
+							model.addElement(jTextField1.getText());
+
+							JOptionPane.showMessageDialog(null, "l'employer a été ajouter avec succès.", "Information",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Attention ! Le contact existe dejà.", "Information",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+
 					}
-
 				}
 			}
 
 		});
 
-		jButtonModifier.setText("Modifier");
+		jButtonModifier.setText("Modifier numéro");
 		jButtonModifier.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				repertoire.modify(jTextField1.getText(), jTextField3.getText());
-				model.clear();
-				try {
+				int option = JOptionPane.showConfirmDialog(null,
 
-					nomEmployer = relationNoyau.nomEmployees();
-					for (int i = 0; i < nomEmployer.size(); i++) {
-						model.add(i, nomEmployer.get(i));
+						"Voulez-vous vraiment modifier le numero de :" + jTextField1.getText() + " ?", "Confirmation",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (option == JOptionPane.OK_OPTION) {
+					int tm = 0;
+					Contact ctct = new Contact("", "", "", "");
+					ctct = repertoire.rechercheEmployer(jTextField1.getText());
+					repertoire.modifyNumero(jTextField1.getText(), jTextField3.getText());
+					if (ctct != null) {
+						model.clear();
+						try {
+
+							nomEmployer = relationNoyau.nomEmployees();
+							for (int i = 0; i < nomEmployer.size(); i++) {
+								model.add(i, nomEmployer.get(i));
+							}
+							JOptionPane.showMessageDialog(null,
+									"Le numero de Mmd,Mr : " + jTextField1.getText() + "  a été changer avec succès.",
+									"Information", JOptionPane.INFORMATION_MESSAGE);
+
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Un probleme est servenu lors de la modification du numero, veuillez verifier votre base de donné.",
+							"Information", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -124,8 +158,14 @@ public class IHMEmployer extends javax.swing.JFrame {
 
 		JButtonSupprimer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				repertoire.remove(jTextField1.getText());
-				;
+				int option = JOptionPane.showConfirmDialog(null,
+
+						"Voulez-vous vraiment l'employer :" + jTextField1.getText() + " de l'entreprise ?",
+						"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (option == JOptionPane.OK_OPTION) {
+					repertoire.remove(jTextField1.getText());
+				}
 				model.clear();
 				try {
 

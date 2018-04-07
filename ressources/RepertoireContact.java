@@ -17,17 +17,22 @@ public class RepertoireContact {
 	private ArrayList<String> nomContacts;
 	private Contact employer;
 	private Contact employe;
+	private int k;
 
 	public RepertoireContact() {
+		k = 0;
 		employer = new Contact("", "", "", "");
-		employe = new Contact("", "", "", "");
+		employe = new Contact("", "", "", ""); 
 		listeDesEmployer = new ArrayList<String>();
 		nomEmployer = new ArrayList<String>();
 		contacts = new ArrayList<String>();
 		nomContacts = new ArrayList<String>();
-		rechercheEmployer("lydia");
+		// rechercheEmployer("lydia");
+		// modifyNumero("anis","2666");
+		//remove("anis");
+	//	ajouterEmployer("anis","anis@vn","01515151","chef");
 	}
-
+ 
 	public void ajouterArrayList(Contact employer) {
 		// listeDesEmployer.clear();
 		listeDesEmployer.add(employer.getName());
@@ -38,11 +43,11 @@ public class RepertoireContact {
 	}
 
 	public void ajouterNomArrayList(Contact employer) {
-		// listeDesEmployer.clear();
-		nomEmployer.add(employer.getName());
-		// System.out.println("nom de mon employer :"+nomEmployer.get(0));
 
-	}
+		nomEmployer.add(employer.getName());
+		 System.out.println("nom de mon employer choisis :"+getNomEmployer().get(0));
+
+	} 
 
 	public ArrayList<String> getNomEmployer() {
 		return nomEmployer;
@@ -55,26 +60,30 @@ public class RepertoireContact {
 	public int ajouterEmployer(String name, String email, String number, String responsabilite) {
 
 		employe.setEmail(email);
-		employe.setName(name);
+		employe.setName(name); 
 		employe.setNumber(number);
 		employe.setResponsabilite(responsabilite);
-		Contact tmp = null;
-		tmp = rechercheEmployer(name);
-		if (tmp != employe) {
-			System.out.println(tmp.getName() + ".." + tmp.getNumber());
-			sauvegarderEmployer(employe);
-			ajouterEmploisDuTempEmployer(employe);
-			return 0;
-		} else
+		Contact Ctcttmp = null;
+		Ctcttmp = rechercheEmployer(name);
+		System.out.println("nom du contact rechercher"+Ctcttmp.getName());
+		if (Ctcttmp.getName().contains(employe.getName())) { 
 			return 1;
+		} else {
+			System.out.println(Ctcttmp.getName() + ".." + Ctcttmp.getNumber());
+		sauvegarderEmployer(employe);
+		ajouterEmploisDuTempEmployer(employe);
+		return 0;
+		}
 	}
 
 	public void sauvegarderEmployer(Contact contact) {
+		File fileContact = new File(".\\data\\contacts.txt");
+		//fileContact.delete();
 		try {
-			BufferedWriter contacts = new BufferedWriter(new FileWriter(".\\data\\contacts.txt", true));
+			BufferedWriter contacts = new BufferedWriter(new FileWriter(fileContact, true));
 
-			contacts.write("\r\n" + contact.getName() + "\r\n" + contact.getEmail() + "\r\n" + contact.getNumber()
-					+ "\r\n" + contact.getResponsabilite() + "\r\n\n");
+			contacts.write(contact.getName() + "\r\n" + contact.getEmail() + "\r\n" + contact.getNumber()
+					+ "\r\n" + contact.getResponsabilite() + "\r\n\r\n");
 			contacts.close();
 
 		} catch (IOException e) {
@@ -90,6 +99,24 @@ public class RepertoireContact {
 		try {
 			initEmploisDuTempsEmployer = new BufferedWriter(
 					new FileWriter(new File(".\\data\\" + contact.getName() + ".txt"), true));
+
+			for (int i = 1; i < 41; i++) {
+				initEmploisDuTempsEmployer.write(1 + "\r\n");
+			}
+			initEmploisDuTempsEmployer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void reinitialiser(String nom) {
+		File tmp = new File(".\\data\\" + nom + ".txt");
+		tmp.delete();
+		BufferedWriter initEmploisDuTempsEmployer;
+		try {
+			initEmploisDuTempsEmployer = new BufferedWriter(new FileWriter(tmp, true));
 
 			for (int i = 1; i < 41; i++) {
 				initEmploisDuTempsEmployer.write(1 + "\r\n");
@@ -139,7 +166,7 @@ public class RepertoireContact {
 		for (int k = 0; k < contacts.size(); k++) {
 
 			if (j == k) {
-				j = j + 6;
+				j = j + 5;
 				nomContacts.add(contacts.get(k));
 				System.out.println(contacts.get(k) + ".......nom employer");
 			}
@@ -149,55 +176,86 @@ public class RepertoireContact {
 	}
 
 	public Contact rechercheEmployer(String name) {
+		listeDesEmployer.clear();
 		lireListeDesEmployer();
 
-		for (int i = 0; i < nombreEmployer(); i++) {
+		for (int i = 0; i < listeDesEmployer.size(); i++) {
 			System.out.println(listeDesEmployer.get(i) + "*recherche*" + name);
-			if (name.contains(listeDesEmployer.get(i))) {
+			if ((listeDesEmployer.get(i).contains(name))) {
 				System.out.println(listeDesEmployer.get(i) + "*trouver*" + name);
 				employer.setName(listeDesEmployer.get(i));
 				employer.setEmail(listeDesEmployer.get(i + 1));
 				employer.setNumber(listeDesEmployer.get(i + 2));
 				employer.setResponsabilite(listeDesEmployer.get(i + 3));
+				k = i;
+				
+				i = nombreEmployer();
 			}
 		}
-		System.out.println(employer.getEmail() + "...." + employer.getName());
+		System.out.println("l'employer rechercher :"+employer.getEmail() +employer.getNumber()+ "...." + employer.getName());
 		return employer;
 	}
 
-	public void modify(String name, String newNumber) {
-
+	public void modifyNumero(String name, String newNumber) {
+		Contact empTmp = new Contact(newNumber, newNumber, newNumber, newNumber);
 		listeDesEmployer.clear();
-		lireListeDesEmployer();
-		for (int i = 0; i < listeDesEmployer.size(); i++) {
-			if (listeDesEmployer.get(i) == name) {
-				listeDesEmployer.set(i + 2, newNumber);
+		lireListeDesEmployer(); 
+		
+		System.out.println("L'employer trouver" + empTmp.getName() + empTmp.getNumber());
+		empTmp = rechercheEmployer(name);
+		empTmp.setNumber(newNumber);
+		getListeDesEmployer().set(k, empTmp.getName());
+		getListeDesEmployer().set(k + 1, empTmp.getEmail());
+		getListeDesEmployer().set(k + 2, empTmp.getNumber());
+		getListeDesEmployer().set(k + 3, empTmp.getResponsabilite());
+		getListeDesEmployer().set(k + 4,"");
+		
+		System.out.println("L'employer trouver" + empTmp.getName() + empTmp.getNumber());
+		
+		File fileContact = new File(".\\data\\contacts.txt");
+		fileContact.delete();
+		try {
+			BufferedWriter contacts = new BufferedWriter(new FileWriter(fileContact, true));
+			for (int i = 0; i < getListeDesEmployer().size(); i++) {
+				contacts.write(getListeDesEmployer().get(i) + "\r\n");
 			}
-		}
+			contacts.close();
 
-		sauvegarderEmployer(rechercheEmployer(name));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void remove(String name) {
-
+		listeDesEmployer.clear();
+		lireListeDesEmployer(); 
 		File f = new File(".\\data\\" + name + ".txt");
 		f.delete();
 
 		for (int i = 0; i < listeDesEmployer.size(); i++) {
-			if (listeDesEmployer.get(i) == name) {
+			if (name.contains(listeDesEmployer.get(i))) {
 				listeDesEmployer.set(i, "");
 				listeDesEmployer.set(i + 1, "");
 				listeDesEmployer.set(i + 2, "");
 				listeDesEmployer.set(i + 3, "");
+				listeDesEmployer.set(i + 4, "");
+				i= listeDesEmployer.size();
+			}}
 
-			} else {
+			
+				File fileContact = new File(".\\data\\contacts.txt");
+				fileContact.delete();
 				BufferedWriter contact;
 				try {
 
-					contact = new BufferedWriter(new FileWriter(new File(".\\data\\contacts.txt"), true));
-
-					contact.write(listeDesEmployer.get(i) + "\n");
+					contact = new BufferedWriter(new FileWriter(fileContact, true));
+					for (int i = 0; i < listeDesEmployer.size(); i++) {
+					contact.write(listeDesEmployer.get(i) + "\r\n");
+					}
 					contact.close();
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -205,8 +263,16 @@ public class RepertoireContact {
 
 			}
 
-		}
+		
 
+	public void reinitialiserLaSemaine() throws IOException {
+		nomEmploye();
+		for (int i = 0; i < getNomContacts().size(); i++) {
+			File tmp = new File(".\\data\\" + getNomContacts().get(i) + ".txt");
+			tmp.delete();
+			System.out.println("l emplois du temps de :" + getNomContacts().get(i) + " ..est reinitialiser");
+			reinitialiser(getNomContacts().get(i));
+		}
 	}
 
 	public ArrayList<String> getListeDesEmployer() {
@@ -215,6 +281,22 @@ public class RepertoireContact {
 
 	public void setListeDesEmployer(ArrayList<String> listeDesEmployer) {
 		this.listeDesEmployer = listeDesEmployer;
+	}
+
+	public ArrayList<String> getNomContacts() {
+		return nomContacts;
+	}
+
+	public void setNomContacts(ArrayList<String> nomContacts) {
+		this.nomContacts = nomContacts;
+	}
+
+	public int getK() {
+		return k;
+	}
+
+	public void setK(int k) {
+		this.k = k;
 	}
 
 	public static void main(String[] args) throws IOException {

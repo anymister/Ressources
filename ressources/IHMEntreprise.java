@@ -122,6 +122,7 @@ public class IHMEntreprise extends javax.swing.JFrame {
 		// TODO add your handling code here:
 		IHMSalles ihmSalles = new IHMSalles();
 		ihmSalles.main(null);
+		dispose();
 	}
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,12 +141,14 @@ public class IHMEntreprise extends javax.swing.JFrame {
 		// TODO add your handling code here:
 		IHMMateriel ihmMateriel = new IHMMateriel();
 		ihmMateriel.main(null);
+		dispose();
 	}
 
 	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
 		IHMEmployer ihmEmployer = new IHMEmployer();
 		ihmEmployer.main(null);
+		dispose();
 
 	}
 

@@ -64,18 +64,18 @@ public class IHMMateriel extends javax.swing.JFrame {
 			}
 		});
 
-		jTextField1.setText("...");
+		jTextField1.setText("");
 
-		jTextField2.setText("...");
+		jTextField2.setText("");
 
-		jTextField3.setText("...");
+		jTextField3.setText("");
 		jTextField3.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jTextField3ActionPerformed(evt);
 			}
 		});
 
-		jTextField4.setText("...");
+		jTextField4.setText("");
 		jTextField4.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jTextField4ActionPerformed(evt);

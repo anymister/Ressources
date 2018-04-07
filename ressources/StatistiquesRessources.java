@@ -43,11 +43,11 @@ public class StatistiquesRessources {
 		lireEmploisDuTempEmployer.close();
 	}
 
-	public float salleRestante() throws IOException {
+	public float salleRestante() throws IOException { 
 		String line = "";
 		String line1 = "";
 		BufferedReader lireSallesRestante = new BufferedReader(new FileReader(".\\data\\salleRestante.txt"));
-		BufferedReader lireSalles = new BufferedReader(new FileReader(".\\data\\salles.txt"));
+		BufferedReader lireSalles = new BufferedReader(new FileReader(".\\data\\salles.txt")); 
 		while ((line1 = lireSallesRestante.readLine()) != null) {
 			sallesRestante.add(line1);
 		}
@@ -68,7 +68,7 @@ public class StatistiquesRessources {
 
 		float c = 0;
 		if (a != 0) {
-			c = (b * 100) / a;
+			c = ((a-b) * 100) / a;
 
 			System.out.println("taux d'occupation des salles" + c + "%");
 		} else
@@ -93,7 +93,7 @@ public class StatistiquesRessources {
 		int tmp = 0;
 		String percent = "";
 		float pourcentage = 0;
-		nomDesEmployer.clear();
+		nomDesEmployer.clear(); 
 
 		Employer.clear();
 		try {
@@ -108,7 +108,7 @@ public class StatistiquesRessources {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (int k = 0; k < Employer.size(); k += 6) {
+		for (int k = 0; k < Employer.size(); k += 5) {
 			System.out.println("nom des employes  :" + Employer.get(k));
 			nomDesEmployer.add(Employer.get(k));
 
@@ -144,7 +144,7 @@ public class StatistiquesRessources {
 		float moyenne = 0;
 		float tmp = 0;
 		int nombreEmployer = 0;
-		occupationDeChaqueEmployer();
+		occupationDeChaqueEmployer(); 
 		for (int i = 0; i < getPourcentageOccupation().size(); i++) {
 
 			tmp = tmp + Float.parseFloat(getPourcentageOccupation().get(i));
@@ -163,6 +163,6 @@ public class StatistiquesRessources {
 	}
 
 	public static void main(String[] args) throws IOException {
-
+new  StatistiquesRessources();
 	}
 }

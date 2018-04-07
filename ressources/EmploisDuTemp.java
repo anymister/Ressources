@@ -8,16 +8,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class EmploisDuTemp {
 
-	private String semaine;
-	private String jour;
-	private String heure;
 	private Evenement event;
-	private int k = 0;
-	private HashMap<String, String> jours;
+
 	private ArrayList<String> nomContact;
 	private RepertoireContact repContact;
 	private ArrayList<String> EmploisDusTemps;
@@ -25,12 +20,12 @@ public class EmploisDuTemp {
 	private ArrayList<String> EmployerParticipantsEvenement;
 	private ArrayList<String> nomEmployer;
 	private RepertoireEvenement repEvent;
-
-	public EmploisDuTemp(Evenement event) {
-		nomEmployer = new ArrayList<String>();
+ 
+	public EmploisDuTemp(Evenement event) { 
+		nomEmployer = new ArrayList<String>(); 
 		EmploisDusTemps = new ArrayList<String>();
 		this.event = event;
-		jours = new HashMap<String, String>();
+
 		nomContact = new ArrayList<String>();
 		repContact = new RepertoireContact();// ajouter les employers qui vont participer à l'evenemnt
 		EmployerParticipantsEvenement = new ArrayList<String>();
@@ -58,21 +53,17 @@ public class EmploisDuTemp {
 		this.nomContact = nomContact;
 	}
 
-	public void lireEmploisDuTempEmployer(String nom) {
+	public void lireEmploisDuTempEmployer(String nom) { 
 
 		BufferedReader lireEmploisDutemps;
+		String line = "";
 
 		try {
 			lireEmploisDutemps = new BufferedReader(new FileReader(".\\data\\" + nom + ".txt"));
-
+			EmploisDusTemps.clear();
 			try {
-				while ((lireEmploisDutemps.readLine()) != null) {
-					try {
-						EmploisDusTemps.add(lireEmploisDutemps.readLine());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				while ((line = lireEmploisDutemps.readLine()) != null) {
+					EmploisDusTemps.add(line);
 				}
 				lireEmploisDutemps.close();
 			} catch (IOException e) {
@@ -103,81 +94,79 @@ public class EmploisDuTemp {
 
 		int dure = event.getReu().getDure();
 		int heure = event.getReu().getHeure();
-		nomEmployer.clear();
-		nomDesEmployerNecessaire(event);
-		BufferedWriter writeEmploisDuTempsEmployer = null;
+		// nomEmployer.clear();
+		// nomDesEmployerNecessaire(event);
+		
 		File EmploisDuTempsEmploye = null;
-		if (nomEmployer.size() != 0) {
+		//if (event.getRepContact().getNomEmployer().size() != 0) {
 			for (int j = 0; j < event.getRepContact().getNomEmployer().size(); j++) {
-				System.out.println(nomEmployer.get(j) + "derniere etape");
+				System.out.println(event.getRepContact().getNomEmployer().get(j) + "derniere etape");
 				EmploisDuTempsEmploye = new File(".\\data\\" + event.getRepContact().getNomEmployer().get(j) + ".txt");
 				// EmploisDuTempsEmployer.delete();
 				EmploisDusTemps.clear();
-				System.out.println(nomEmployer.get(j) + "....nom du contact1");
+				System.out.println(event.getRepContact().getNomEmployer().size());
+				System.out.println(event.getRepContact().getNomEmployer().get(j) + "....nom du contact1");
 				BufferedReader lireEmploisDuTempEmployer = new BufferedReader(
 						new FileReader(".\\data\\" + event.getRepContact().getNomEmployer().get(j) + ".txt"));
 				while ((line = lireEmploisDuTempEmployer.readLine()) != null) {
 					EmploisDusTemps.add(line);
 				}
 				lireEmploisDuTempEmployer.close();
-				if (EmploisDusTemps.get(heure) != "0") {
-					if (dure == 1) {
-						EmploisDusTemps.set(heure, "0");
+				if ((EmploisDusTemps.get(heure).contains("1")) && (dure == 1)) {
 
-					} else if (dure == 2) {
-						if (EmploisDusTemps.get(heure + 1) != "0") {
-							EmploisDusTemps.set(heure, "0");
-							EmploisDusTemps.set(heure + 1, "0");
+					EmploisDusTemps.set(heure, "0");
+					sauvegardeEmploisDuTempsEmployer(EmploisDusTemps, event.getRepContact().getNomEmployer().get(j));
+					return 1;
 
-						} else {
-							return 0;
-						}
-					} else if (dure == 3) {
-						if ((EmploisDusTemps.get(heure + 2) != "0") && (EmploisDusTemps.get(heure + 1) != "0")) {
-							EmploisDusTemps.set(heure, "0");
-							EmploisDusTemps.set(heure + 1, "0");
-							EmploisDusTemps.set(heure + 2, "0");
+				} else if ((EmploisDusTemps.get(heure).contains("1")) && (EmploisDusTemps.get(heure + 1).contains("1"))
+						&& (dure == 2)) {
 
-						} else {
-							return 0;
-						}
-					} else if (dure == 4) {
-						if ((EmploisDusTemps.get(heure + 3) != "0") && (EmploisDusTemps.get(heure + 2) != "0")
-								&& (EmploisDusTemps.get(heure + 1) != "0")) {
-							EmploisDusTemps.set(heure, "0");
-							EmploisDusTemps.set(heure + 1, "0");
-							EmploisDusTemps.set(heure + 2, "0");
-							EmploisDusTemps.set(heure + 3, "0");
+					EmploisDusTemps.set(heure, "0");
+					EmploisDusTemps.set(heure + 1, "0");
+					sauvegardeEmploisDuTempsEmployer(EmploisDusTemps, event.getRepContact().getNomEmployer().get(j));
 
-						} else {
-							return 0;
-						}
-					} else if (dure == 5) {
-						if ((EmploisDusTemps.get(heure + 4) != "0") && (EmploisDusTemps.get(heure + 3) != "0")
-								&& (EmploisDusTemps.get(heure + 2) != "0") && (EmploisDusTemps.get(heure + 1) != "0")) {
+					return 1;
 
-							EmploisDusTemps.set(heure, "0");
-							EmploisDusTemps.set(heure + 1, "0");
-							EmploisDusTemps.set(heure + 2, "0");
-							EmploisDusTemps.set(heure + 3, "0");
-							EmploisDusTemps.set(heure + 4, "0");
-						} else
-							return 0;
-					}
-					EmploisDuTempsEmploye.delete();
-					writeEmploisDuTempsEmployer = new BufferedWriter(new FileWriter((EmploisDuTempsEmploye), true));
-					for (int i = 0; i < EmploisDusTemps.size(); i++) {
-						writeEmploisDuTempsEmployer.write(EmploisDusTemps.get(i) + "\r\n");
-						System.out.println(EmploisDusTemps.get(i));
-						// System.out.println(nomEmployer.get(i));
-					}
-					writeEmploisDuTempsEmployer.close();
+				} else if ((EmploisDusTemps.get(heure).contains("1")) && (EmploisDusTemps.get(heure + 1) != "0")
+						&& (EmploisDusTemps.get(heure + 2) != "0") && (dure == 3)) {
+
+					EmploisDusTemps.set(heure, "0");
+					EmploisDusTemps.set(heure + 1, "0");
+					EmploisDusTemps.set(heure + 2, "0");
+					sauvegardeEmploisDuTempsEmployer(EmploisDusTemps, event.getRepContact().getNomEmployer().get(j));
+
+					return 1;
+
+				} else if ((EmploisDusTemps.get(heure).contains("1")) && (EmploisDusTemps.get(heure + 1) .contains("1"))
+						&& (EmploisDusTemps.get(heure + 2) .contains("1")) && (EmploisDusTemps.get(heure + 3).contains("1"))
+						&& (dure == 4)) {
+
+					EmploisDusTemps.set(heure, "0");
+					EmploisDusTemps.set(heure + 1, "0");
+					EmploisDusTemps.set(heure + 2, "0");
+					EmploisDusTemps.set(heure + 3, "0");
+					sauvegardeEmploisDuTempsEmployer(EmploisDusTemps, event.getRepContact().getNomEmployer().get(j));
+					return 1;
+
+				} else if ((EmploisDusTemps.get(heure) .contains("1")) && (EmploisDusTemps.get(heure + 1) .contains("1"))
+						&& (EmploisDusTemps.get(heure + 2) != "0") && (EmploisDusTemps.get(heure + 3) != "0")
+						&& (EmploisDusTemps.get(heure + 4) != "0") && (dure == 5)) {
+
+					EmploisDusTemps.set(heure, "0");
+					EmploisDusTemps.set(heure + 1, "0");
+					EmploisDusTemps.set(heure + 2, "0");
+					EmploisDusTemps.set(heure + 3, "0"); 
+					EmploisDusTemps.set(heure + 4, "0");
+					sauvegardeEmploisDuTempsEmployer(EmploisDusTemps, event.getRepContact().getNomEmployer().get(j));
+					return 1;
 				} else
 					return 0;
+
 			}
-			return 1;
-		} else
+			//return 1;
+	//	} else
 			return 0;
+
 	}
 
 	public int ajouterDansEmploisDuTempsEntreprise(Evenement event) throws IOException {
@@ -199,42 +188,50 @@ public class EmploisDuTemp {
 			if (dure == 1) {
 				EmploisDusTemps.set(heure, "0");
 				repEvent.enregistrerEvenement(event);
+				sauvegardeEmploisDuTemps(EmploisDusTemps);
+				return 1;
 
 			} else if (dure == 2) {
-				if (EmploisDusTemps.get(heure + 1) != "0") {
+				if (EmploisDusTemps.get(heure + 1) .contains("1")) {
 					EmploisDusTemps.set(heure, "0");
 					EmploisDusTemps.set(heure + 1, "0");
 					repEvent.enregistrerEvenement(event);
+					sauvegardeEmploisDuTemps(EmploisDusTemps);
+					return 1;
 
 				} else {
 					return 0;
 				}
 			} else if (dure == 3) {
-				if ((EmploisDusTemps.get(heure + 2) != "0") && (EmploisDusTemps.get(heure + 1) != "0")) {
+				if ((EmploisDusTemps.get(heure + 2).contains("1")) && (EmploisDusTemps.get(heure + 1) .contains("1"))) {
 					EmploisDusTemps.set(heure, "0");
 					EmploisDusTemps.set(heure + 1, "0");
 					EmploisDusTemps.set(heure + 2, "0");
 					repEvent.enregistrerEvenement(event);
+					sauvegardeEmploisDuTemps(EmploisDusTemps);
+					return 1;
 
 				} else {
 					return 0;
 				}
 			} else if (dure == 4) {
-				if ((EmploisDusTemps.get(heure + 3) != "0") && (EmploisDusTemps.get(heure + 2) != "0")
+				if ((EmploisDusTemps.get(heure + 3) .contains("1")) && (EmploisDusTemps.get(heure + 2) .contains("1"))
 						&& (EmploisDusTemps.get(heure + 1) != "0")) {
 					EmploisDusTemps.set(heure, "0");
 					EmploisDusTemps.set(heure + 1, "0");
 					EmploisDusTemps.set(heure + 2, "0");
 					EmploisDusTemps.set(heure + 3, "0");
 					repEvent.enregistrerEvenement(event);
+					sauvegardeEmploisDuTemps(EmploisDusTemps);
+					return 1;
 
 				} else {
 
 					return 0;
 				}
 			} else if (dure == 5) {
-				if ((EmploisDusTemps.get(heure + 4) != "0") && (EmploisDusTemps.get(heure + 3) != "0")
-						&& (EmploisDusTemps.get(heure + 2) != "0") && (EmploisDusTemps.get(heure + 1) != "0")) {
+				if ((EmploisDusTemps.get(heure + 4) .contains("1")) && (EmploisDusTemps.get(heure + 3) .contains("1"))
+						&& (EmploisDusTemps.get(heure + 2).contains("1")) && (EmploisDusTemps.get(heure + 1).contains("1"))) {
 
 					EmploisDusTemps.set(heure, "0");
 					EmploisDusTemps.set(heure + 1, "0");
@@ -242,24 +239,45 @@ public class EmploisDuTemp {
 					EmploisDusTemps.set(heure + 3, "0");
 					EmploisDusTemps.set(heure + 4, "0");
 					repEvent.enregistrerEvenement(event);
+					sauvegardeEmploisDuTemps(EmploisDusTemps);
+					return 1;
 
-				}
+				} else
+					return 0;
 
 			}
 
-			EmploisDuTempsEntreprise.delete();
-			BufferedWriter writeEmploisDuTempsEntreprise = new BufferedWriter(
-					new FileWriter(new File("data\\semaine1.txt"), true));
-
-			for (int i = 0; i < EmploisDusTemps.size(); i++) {
-				writeEmploisDuTempsEntreprise.write(EmploisDusTemps.get(i) + "\r\n");
-				System.out.println(EmploisDusTemps.get(i));
-			}
-			writeEmploisDuTempsEntreprise.close();
-
-			return 1;
 		} else
 			return 0;
+
+		return 0;
+
+	}
+
+	public void sauvegardeEmploisDuTempsEmployer(ArrayList tmp, String nom) throws IOException {
+		File tmpFile = new File("data\\" + nom + ".txt");
+		tmpFile.delete(); 
+		BufferedWriter writeEmploisDuTempsEntreprise = new BufferedWriter(
+				new FileWriter(new File("data\\" + nom + ".txt"), true));
+
+		for (int i = 0; i < tmp.size(); i++) {
+			writeEmploisDuTempsEntreprise.write(tmp.get(i) + "\r\n");
+			System.out.println(tmp.get(i));
+		}
+		writeEmploisDuTempsEntreprise.close();
+	}
+
+	public void sauvegardeEmploisDuTemps(ArrayList tmp) throws IOException {
+		File tmpFile = new File("data\\semaine1.txt");
+		tmpFile.delete();
+		BufferedWriter writeEmploisDuTempsEntreprise = new BufferedWriter(
+				new FileWriter(new File("data\\semaine1.txt"), true));
+
+		for (int i = 0; i < tmp.size(); i++) {
+			writeEmploisDuTempsEntreprise.write(tmp.get(i) + "\r\n");
+			System.out.println(tmp.get(i));
+		}
+		writeEmploisDuTempsEntreprise.close();
 
 	}
 
@@ -278,14 +296,6 @@ public class EmploisDuTemp {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-
-	public void modeAutomatique() {
-
-	}
-
-	public void modeSemiAutomatique() {
 
 	}
 

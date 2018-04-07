@@ -41,13 +41,14 @@ public class IHMStatistiques extends javax.swing.JFrame {
 		jMenuItem3 = new javax.swing.JMenuItem();
 		jMenu2 = new javax.swing.JMenu();
 		jMenu3 = new javax.swing.JMenu();
-		stat = new StatistiquesRessources();
+		stat = new StatistiquesRessources(); 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		try {
-			stat.occupationDeChaqueEmployer();
-			nomEmployer = relationNoyau.nomEmployees();
-			for (int i = 0; i < nomEmployer.size(); i++) {
-				model.add(i, nomEmployer.get(i) + ".............." + stat.getPourcentageOccupation().get(i) + "%");
+			stat.occupationDeChaqueEmployer(); 
+			//nomEmployer = relationNoyau.nomEmployees();
+			for (int i = 0; i <  relationNoyau.nomEmployees().size(); i++) {
+				System.out.println("stat"+stat.getPourcentageOccupation().get(i));
+				model.add(i,  relationNoyau.nomEmployees().get(i) + ".............." +stat.getPourcentageOccupation().get(i) +  "%"); 
 
 			}
 			jTextField1.setText(stat.salleRestante() + "%");

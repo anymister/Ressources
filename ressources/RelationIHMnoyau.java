@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class RelationIHMnoyau {
 	private int[][] tabs;
+	private int[][] tabs1;
 	private int tab[];
 	private ArrayList<String> nom;
 	private ArrayList<String> noms;
@@ -16,6 +17,7 @@ public class RelationIHMnoyau {
 
 	public RelationIHMnoyau() {
 		tabs = new int[15][15];
+		tabs1 = new int[15][15];
 		tab = new int[2];
 		nom = new ArrayList<String>();
 		noms = new ArrayList<String>();
@@ -24,6 +26,18 @@ public class RelationIHMnoyau {
 	public int stringEnEntier(String string) {
 		int entier = Integer.parseInt(string);
 		return entier;
+	}
+	public int[][] tableau_En_heure() {
+		n = 0;
+		for (int i = 1; i < 6; i++) {
+			for (int j = 1; j < 9; j++) { 
+				tabs1[j][i] = n;
+				System.out.println("tab["+j+"]"+"["+i+"]"+"="+n+"\r\n");
+				n++;
+			}
+		}
+		return tabs1;
+
 	}
 
 	public int convertir_tableau_En_heure(int colon, int ligne) {
@@ -76,7 +90,7 @@ public class RelationIHMnoyau {
 		for (int k = 0; k < nom.size(); k++) {
 
 			if (j == k) {
-				j = j + 6;
+				j = j + 5;
 				noms.add(nom.get(k));
 				System.out.println(nom.get(k));
 			} else {
@@ -94,5 +108,7 @@ public class RelationIHMnoyau {
 	public void setTab(int[] tab) {
 		this.tab = tab;
 	}
+
+	
 
 }
